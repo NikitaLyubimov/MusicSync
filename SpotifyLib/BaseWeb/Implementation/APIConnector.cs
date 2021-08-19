@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 using SpotifyLib.BaseWeb.Interfaces;
 using SpotifyLib.BaseWeb.DTO;
-using System.Net.Http;
 
 namespace SpotifyLib.BaseWeb.Implementation
 {
@@ -25,9 +25,16 @@ namespace SpotifyLib.BaseWeb.Implementation
             object body = null, IDictionary<string, string> parameters = null)
         {
             var request = CreateRequest(uri, httpMethod, headers, body, parameters);
-            await _auhtenticator.Apply(request, this);
+            await ApplyAuthenticator(request);
             var apiResponse = await SendSerializedRequest<T>(request).ConfigureAwait(false);
             return apiResponse.Body;
+        }
+
+        private async Task ApplyAuthenticator(Request request)
+        {
+            if (!request.EndPoint.IsAbsoluteUri || request.EndPoint.AbsoluteUri.Contains("https://api.spotify.com"))
+                await _auhtenticator.Apply(request, this);
+
         }
 
         private async Task<ApiResponse<T>> SendSerializedRequest<T>(Request request)
