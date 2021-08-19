@@ -12,6 +12,7 @@ namespace SpotifyLib.BaseWeb.Implementation
     {
         private IHttpClient _httpClient;
         private IJSONSerializer _jsonSerializer;
+        private IAuthenticator _auhtenticator;
         private Uri _baseUri;
 
         public async Task<T> Post<T>(Uri uri, IDictionary<string, string> headers, object body)
@@ -24,6 +25,7 @@ namespace SpotifyLib.BaseWeb.Implementation
             object body = null, IDictionary<string, string> parameters = null)
         {
             var request = CreateRequest(uri, httpMethod, headers, body, parameters);
+            await _auhtenticator.Apply(request, this);
             var apiResponse = await SendSerializedRequest<T>(request).ConfigureAwait(false);
             return apiResponse.Body;
         }
