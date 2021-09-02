@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 
-using SpotifyLib.DTO;
+using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Interfaces;
 using SpotifyLib.BaseWeb.Interfaces;
 using SpotifyLib.Constants;

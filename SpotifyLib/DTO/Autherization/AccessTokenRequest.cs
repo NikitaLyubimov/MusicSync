@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyLib.DTO
+namespace SpotifyLib.DTO.Autherization
 {
     public class AccessTokenRequest
     {
@@ -14,7 +14,7 @@ namespace SpotifyLib.DTO
         public string Code { get; set; }
         public Uri RedirectUri { get; set; }
 
-        public AccessTokenRequest(string clientId, string clientSecret, string grantType, string code, string redirectUri)
+        public AccessTokenRequest(string clientId, string clientSecret, string grantType, string code, Uri redirectUri)
         {
             ClientId = clientId;
             ClientSecret = clientSecret;

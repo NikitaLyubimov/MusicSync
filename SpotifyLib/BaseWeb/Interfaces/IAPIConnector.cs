@@ -9,5 +9,8 @@ namespace SpotifyLib.BaseWeb.Interfaces
     public interface IAPIConnector
     {
         Task<T> Post<T>(Uri uri, IDictionary<string, string> headers, object body);
+        Task<T> Get<T>(Uri uri);
+        Task<T> Get<T>(Uri uri, IDictionary<string, string> headers);
+
     }
 }

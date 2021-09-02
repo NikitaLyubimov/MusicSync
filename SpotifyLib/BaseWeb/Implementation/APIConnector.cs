@@ -15,9 +15,26 @@ namespace SpotifyLib.BaseWeb.Implementation
         private IAuthenticator _auhtenticator;
         private Uri _baseUri;
 
+        public APIConnector(Uri baseUri, IAuthenticator authenticator, IJSONSerializer jsonSerializer, IHttpClient httpClient)
+        {
+            _baseUri = baseUri;
+            _auhtenticator = authenticator;
+            _jsonSerializer = jsonSerializer;
+            _httpClient = httpClient;
+        }
+
         public async Task<T> Post<T>(Uri uri, IDictionary<string, string> headers, object body)
         {
             return await SendApiRequest<T>(uri, HttpMethod.Post, headers, body);
+        }
+
+        public async Task<T> Get<T>(Uri uri)
+        {
+            return await SendApiRequest<T>(uri, HttpMethod.Get);
+        }
+        public async Task<T> Get<T>(Uri uri, IDictionary<string, string> headers)
+        {
+            return await SendApiRequest<T>(uri, HttpMethod.Get, headers);
         }
 
         private async Task<T> SendApiRequest<T>(Uri uri, HttpMethod httpMethod,
@@ -63,5 +80,7 @@ namespace SpotifyLib.BaseWeb.Implementation
                 Parameters = parameters ?? new Dictionary<string, string>()
             };
         }
+
+ 
     }
 }

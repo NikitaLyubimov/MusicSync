@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using SpotifyLib.DTO;
+using SpotifyLib.DTO.Autherization;
 
 namespace SpotifyLib.Interfaces
 {

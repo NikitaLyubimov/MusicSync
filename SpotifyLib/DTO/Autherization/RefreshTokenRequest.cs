@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyLib.DTO
+namespace SpotifyLib.DTO.Autherization
 {
     public class RefreshTokenRequest
     {

@@ -2,7 +2,7 @@
 
 using SpotifyLib.BaseWeb.DTO;
 using SpotifyLib.BaseWeb.Interfaces;
-using SpotifyLib.DTO;
+using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Clients;
 
 namespace SpotifyLib.BaseWeb.Implementation
