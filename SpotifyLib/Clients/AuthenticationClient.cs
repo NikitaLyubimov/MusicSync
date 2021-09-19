@@ -8,7 +8,7 @@ using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Interfaces;
 using SpotifyLib.BaseWeb.Interfaces;
 using SpotifyLib.Constants;
-
+using SpotifyLib.BaseWeb.Implementation;
 
 namespace SpotifyLib.Clients
 {
@@ -19,6 +19,11 @@ namespace SpotifyLib.Clients
         public AuthenticationClient(IAPIConnector apiConnector)
         {
             _apiConnector = apiConnector;
+        }
+
+        public AuthenticationClient()
+        {
+            _apiConnector = new APIConnector(SpotifyUrls.AuthTokenRequest, null, new JSONSerializer(), new NetHttpClient());
         }
         public async Task<AccessTokenResponse> RequestRefreshToken(RefreshTokenRequest refreshTokenRequest)
         {
@@ -67,10 +72,11 @@ namespace SpotifyLib.Clients
                 return new Dictionary<string, string>();
 
             var authBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+            var authValue = string.Concat("Basic ", authBase64);
 
             return new Dictionary<string, string>
             {
-                {"Authorization", authBase64 }
+                {"Authorization", authValue }
             };
         }
     }

@@ -5,6 +5,7 @@ using System.Net.Http;
 
 using SpotifyLib.BaseWeb.Interfaces;
 using SpotifyLib.BaseWeb.DTO;
+using System.Net;
 
 namespace SpotifyLib.BaseWeb.Implementation
 {
@@ -28,6 +29,12 @@ namespace SpotifyLib.BaseWeb.Implementation
             return await SendApiRequest<T>(uri, HttpMethod.Post, headers, body);
         }
 
+        public async Task<HttpStatusCode> Post(Uri uri, object body)
+        {
+            var result = await SendApiRequestFullResponse(uri, HttpMethod.Post, body: body);
+            return result.StatusCode;
+        }
+
         public async Task<T> Get<T>(Uri uri)
         {
             return await SendApiRequest<T>(uri, HttpMethod.Get);
@@ -45,6 +52,16 @@ namespace SpotifyLib.BaseWeb.Implementation
             await ApplyAuthenticator(request);
             var apiResponse = await SendSerializedRequest<T>(request).ConfigureAwait(false);
             return apiResponse.Body;
+        }
+
+        private async Task<Response> SendApiRequestFullResponse(Uri uri, HttpMethod httpMethod, 
+            IDictionary<string, string> headers = null, object body = null, 
+            IDictionary<string, string> parameters = null)
+        {
+            var request = CreateRequest(uri, httpMethod, headers, body, parameters);
+            await ApplyAuthenticator(request);
+            var apiResponse = await SendSerializedRequest<object>(request).ConfigureAwait(false);
+            return apiResponse.Response;
         }
 
         private async Task ApplyAuthenticator(Request request)

@@ -17,10 +17,14 @@ namespace SpotifyLib.BaseWeb.Implementation
 
         public JSONSerializer()
         {
+            var contractResolver = new DefaultContractResolver()
+            {
+                NamingStrategy = new SnakeCaseNamingStrategy()
+            };
             _serializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                ContractResolver = contractResolver
             };
         }
         public ApiResponse<T> DeserealizeResponse<T>(Response response)
@@ -39,6 +43,7 @@ namespace SpotifyLib.BaseWeb.Implementation
                 return;
 
             request.Body = JsonConvert.SerializeObject(request.Body, _serializerSettings);
+            
         }
     }
 }

@@ -8,7 +8,6 @@ namespace SpotifyLib.DTO.Playlists
 {
     public class AddTracksToPlaylistRequest
     {
-        public string PlaylistId { get; set; }
-        public IEnumerable<string> Tracks { get; set; }
+        public IEnumerable<string> Uris { get; set; }
     }
 }

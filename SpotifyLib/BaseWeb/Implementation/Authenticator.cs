@@ -13,11 +13,14 @@ namespace SpotifyLib.BaseWeb.Implementation
         public string ClientSecret { get; set; }
         public AccessTokenResponse AccessToken { get; set; }
 
-        public Authenticator(string clientId, string clientSecret, AccessTokenResponse accessToken)
+        public Authenticator(string clientId, string clientSecret, AccessTokenResponse accessToken = null)
         {
             ClientId = clientId;
             ClientSecret = clientSecret;
-            AccessToken = accessToken;
+            if (accessToken == null)
+                AccessToken = new AccessTokenResponse();
+            else
+                AccessToken = accessToken;
         }
         public async Task Apply(Request request, IAPIConnector apiConnector)
         {
@@ -26,7 +29,7 @@ namespace SpotifyLib.BaseWeb.Implementation
                 var tokenRequest = new RefreshTokenRequest(ClientId, ClientSecret, "refresh_token", AccessToken.RefreshToken);
                 var refreshToken = await AuthenticationClient.SendRefreshTokenRequest(tokenRequest, apiConnector).ConfigureAwait(false);
 
-                AccessToken.Token = refreshToken.Token;
+                AccessToken.AccessToken = refreshToken.AccessToken;
                 AccessToken.RefreshToken = refreshToken.RefreshToken;
                 AccessToken.Scope = refreshToken.Scope;
                 AccessToken.TokenType = refreshToken.TokenType;
@@ -35,7 +38,7 @@ namespace SpotifyLib.BaseWeb.Implementation
 
             }
 
-            request.Headers["Authorization"] = $"{AccessToken.TokenType} {AccessToken.Token}";
+            request.Headers["Authorization"] = $"{AccessToken.TokenType} {AccessToken.AccessToken}";
         }
     }
 }

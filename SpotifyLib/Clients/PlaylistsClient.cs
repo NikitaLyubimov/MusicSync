@@ -18,14 +18,14 @@ namespace SpotifyLib.Clients
         {
             _apiConnector = apiConnector;
         }
-        public Task<HttpStatusCode> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest)
+        public async Task<HttpStatusCode> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest, string playlistId)
         {
-            throw new NotImplementedException();
+            return await _apiConnector.Post(SpotifyUrls.AddItemsToPlaylist(playlistId), addTracksRequest);
         }
 
-        public Task<HttpStatusCode> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
+        public async Task<HttpStatusCode> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
         {
-            throw new NotImplementedException();
+            return await _apiConnector.Post(SpotifyUrls.CreatePlaylistUri("9itg0t81brz9r8xr557ax329e"), createPlaylistRequest);
         }
 
         public async Task<PlaylistsListResponse> GetCurrentUserPlaylists()
@@ -40,7 +40,7 @@ namespace SpotifyLib.Clients
 
         public async Task<PlaylistTracksResponse> GetPlaylistTracks(string playlistId)
         {
-            var getPlaylistTracksPath = $"{SpotifyUrls.PlaylistUri.ToString()}/{playlistId}/tracks";
+            var getPlaylistTracksPath = $"{SpotifyUrls.PlaylistUri}/{playlistId}/tracks";
             var getPlaylistTracksUri = new Uri(getPlaylistTracksPath);
             return await _apiConnector.Get<PlaylistTracksResponse>(getPlaylistTracksUri);
         }

@@ -12,6 +12,6 @@ namespace SpotifyLib.BaseWeb.DTO
             Response = response;
         }
         public T Body { get; }
-        Response Response { get;  }
+        public Response Response { get;  }
     }
 }

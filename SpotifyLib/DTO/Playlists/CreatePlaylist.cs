@@ -8,9 +8,6 @@ namespace SpotifyLib.DTO.Playlists
 {
     public class CreatePlaylist
     {
-        public string Name { get; set; }
-        public bool Public { get; set; }
-        public bool Collaborative { get; set; }
-        public string Description { get; set; }
+        
     }
 }

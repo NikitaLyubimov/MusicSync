@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SpotifyLib.DTO
+namespace SpotifyLib.DTO.Autherization
 {
     public class AccessTokenResponse
     {
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
         public string TokenType { get; set; }
         public string Scope { get; set; }
         public int ExpiresIn { get; set; }

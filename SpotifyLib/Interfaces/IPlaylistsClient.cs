@@ -14,6 +14,6 @@ namespace SpotifyLib.Interfaces
         Task<PlaylistsListResponse> GetCurrentUserPlaylists();
         Task<PlaylistTracksResponse> GetPlaylistTracks(string playlistId);
         Task<HttpStatusCode> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest);
-        Task<HttpStatusCode> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest);
+        Task<HttpStatusCode> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest, string playlistId);
     }
 }
