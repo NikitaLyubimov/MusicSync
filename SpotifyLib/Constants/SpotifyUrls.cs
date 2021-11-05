@@ -14,5 +14,6 @@ namespace SpotifyLib.Constants
         public static readonly Uri PlaylistUri = new("v1/playlists", UriKind.Relative);
         public static Uri CreatePlaylistUri(string userId) => new($"v1/users/{userId}/playlists", UriKind.Relative);
         public static Uri AddItemsToPlaylist(string playlistId) => new($"v1/playlists/{playlistId}/tracks", UriKind.Relative);
+        public static Uri GetTrack(string query) => new($"v1/search?q={query}&type=track");
     }
 }

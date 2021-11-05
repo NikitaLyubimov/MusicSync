@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-
-
-using SpotifyLib.BaseWeb.Interfaces;
+using BaseWeb.DTO;
+using BaseWeb.Interfaces;
 using SpotifyLib.Constants;
 using SpotifyLib.DTO.Playlists;
 using SpotifyLib.Interfaces;
@@ -18,12 +17,12 @@ namespace SpotifyLib.Clients
         {
             _apiConnector = apiConnector;
         }
-        public async Task<HttpStatusCode> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest, string playlistId)
+        public async Task<Response> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest, string playlistId)
         {
             return await _apiConnector.Post(SpotifyUrls.AddItemsToPlaylist(playlistId), addTracksRequest);
         }
 
-        public async Task<HttpStatusCode> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
+        public async Task<Response> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest)
         {
             return await _apiConnector.Post(SpotifyUrls.CreatePlaylistUri("9itg0t81brz9r8xr557ax329e"), createPlaylistRequest);
         }

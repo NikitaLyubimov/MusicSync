@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
-
-using SpotifyLib.BaseWeb.Interfaces;
-using SpotifyLib.BaseWeb.DTO;
 using System.Net;
 
-namespace SpotifyLib.BaseWeb.Implementation
+using BaseWeb.Interfaces;
+using BaseWeb.DTO;
+
+
+namespace BaseWeb.Implementation
 {
     public class APIConnector : IAPIConnector
     {
         private IHttpClient _httpClient;
         private IJSONSerializer _jsonSerializer;
-        private IAuthenticator _auhtenticator;
         private Uri _baseUri;
 
-        public APIConnector(Uri baseUri, IAuthenticator authenticator, IJSONSerializer jsonSerializer, IHttpClient httpClient)
+        public event AuthenticatorHandlerAsync AuthenticatorNotifyAsync;
+        public event AuthenticatorHandler AuthenticatorNotify;
+
+        public APIConnector(Uri baseUri, IJSONSerializer jsonSerializer, IHttpClient httpClient, bool useCookies=false)
         {
             _baseUri = baseUri;
-            _auhtenticator = authenticator;
             _jsonSerializer = jsonSerializer;
             _httpClient = httpClient;
         }
@@ -29,10 +31,15 @@ namespace SpotifyLib.BaseWeb.Implementation
             return await SendApiRequest<T>(uri, HttpMethod.Post, headers, body);
         }
 
-        public async Task<HttpStatusCode> Post(Uri uri, object body)
+        public async Task<T> Post<T>(Uri uri, object body)
+        {
+            return await SendApiRequest<T>(uri, HttpMethod.Post, body: body);
+        }
+
+        public async Task<Response> Post(Uri uri, object body)
         {
             var result = await SendApiRequestFullResponse(uri, HttpMethod.Post, body: body);
-            return result.StatusCode;
+            return result;
         }
 
         public async Task<T> Get<T>(Uri uri)
@@ -42,6 +49,19 @@ namespace SpotifyLib.BaseWeb.Implementation
         public async Task<T> Get<T>(Uri uri, IDictionary<string, string> headers)
         {
             return await SendApiRequest<T>(uri, HttpMethod.Get, headers);
+        }
+        public async Task<Response> Get(Uri uri)
+        {
+            return await SendApiRequestFullResponse(uri, HttpMethod.Get);
+        }
+        public IEnumerable<Cookie> GetRequestCookies(Uri uri)
+        {
+            Uri fullUri;
+            if (uri.IsAbsoluteUri)
+                fullUri = uri;
+            else
+                fullUri = new(_baseUri, uri);
+            return _httpClient.GetCookies(fullUri);
         }
 
         private async Task<T> SendApiRequest<T>(Uri uri, HttpMethod httpMethod,
@@ -66,14 +86,23 @@ namespace SpotifyLib.BaseWeb.Implementation
 
         private async Task ApplyAuthenticator(Request request)
         {
-            if (!request.EndPoint.IsAbsoluteUri || request.EndPoint.AbsoluteUri.Contains("https://api.spotify.com"))
-                await _auhtenticator.Apply(request, this);
-
+            if (!request.EndPoint.IsAbsoluteUri && request.EndPoint.AbsoluteUri.Contains("https://api.spotify.com"))
+            {
+                await AuthenticatorNotifyAsync?.Invoke(request, this);
+                AuthenticatorNotify?.Invoke(request, this);
+            }
         }
 
         private async Task<ApiResponse<T>> SendSerializedRequest<T>(Request request)
         {
-            _jsonSerializer.SerializeRequest(request);
+            if(request.Body is IDictionary<string, string>)
+            {
+                var httpContent = new FormUrlEncodedContent((IDictionary<string,string>)request.Body);
+                httpContent.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                request.Body = httpContent;
+            }
+            else
+                _jsonSerializer.SerializeRequest(request);
             var response = await DoRequest(request).ConfigureAwait(false);
             return _jsonSerializer.DeserealizeResponse<T>(response);
         }
@@ -91,13 +120,13 @@ namespace SpotifyLib.BaseWeb.Implementation
             {
                 Body = body,
                 Method = method,
-                Uri = _baseUri,
-                EndPoint = uri,
+                Uri = uri.IsAbsoluteUri ? uri : _baseUri,
+                EndPoint = uri.IsAbsoluteUri ? new Uri("") : uri,
                 Headers = headers ?? new Dictionary<string, string>(),
                 Parameters = parameters ?? new Dictionary<string, string>()
             };
         }
 
- 
+  
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SpotifyLib.BaseWeb.DTO
+namespace BaseWeb.DTO
 {
     public class ApiResponse<T>
     {

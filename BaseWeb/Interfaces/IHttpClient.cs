@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-using SpotifyLib.BaseWeb.DTO;
+using BaseWeb.DTO;
 
-namespace SpotifyLib.BaseWeb.Interfaces
+namespace BaseWeb.Interfaces
 {
     public interface IHttpClient
     {
         Task<Response> DoRequest(Request request);
+        IEnumerable<Cookie> GetCookies(Uri uri);
     }
 }

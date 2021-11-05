@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SpotifyLib.BaseWeb.DTO;
-using SpotifyLib.BaseWeb.Interfaces;
 
-namespace SpotifyLib.BaseWeb.Implementation
+using BaseWeb.DTO;
+using BaseWeb.Interfaces;
+
+namespace BaseWeb.Implementation
 {
     public class JSONSerializer : IJSONSerializer
     {

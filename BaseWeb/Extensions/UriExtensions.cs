@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-namespace SpotifyLib.BaseWeb.Extensions
+namespace BaseWeb.Extensions
 {
     public static class UriExtensions
     {

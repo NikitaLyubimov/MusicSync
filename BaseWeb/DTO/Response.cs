@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Text;
 
-namespace SpotifyLib.BaseWeb.DTO
+namespace BaseWeb.DTO
 {
     public class Response
     {
@@ -12,6 +12,7 @@ namespace SpotifyLib.BaseWeb.DTO
         {
             Headers = new ReadOnlyDictionary<string, string>(headers);
         }
+        public Uri Uri { get; set; }
         public string Body { get; set; }
         public IReadOnlyDictionary<string, string> Headers { get; set; }
         public HttpStatusCode StatusCode { get; set; }

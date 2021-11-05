@@ -6,9 +6,9 @@ using System.Net.Http;
 
 using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Interfaces;
-using SpotifyLib.BaseWeb.Interfaces;
+using BaseWeb.Interfaces;
 using SpotifyLib.Constants;
-using SpotifyLib.BaseWeb.Implementation;
+using BaseWeb.Implementation;
 
 namespace SpotifyLib.Clients
 {
@@ -23,7 +23,7 @@ namespace SpotifyLib.Clients
 
         public AuthenticationClient()
         {
-            _apiConnector = new APIConnector(SpotifyUrls.AuthTokenRequest, null, new JSONSerializer(), new NetHttpClient());
+            _apiConnector = new APIConnector(SpotifyUrls.AuthTokenRequest, new JSONSerializer(), new NetHttpClient());
         }
         public async Task<AccessTokenResponse> RequestRefreshToken(RefreshTokenRequest refreshTokenRequest)
         {

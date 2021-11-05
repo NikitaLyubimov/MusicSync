@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using SpotifyLib.BaseWeb.DTO;
+using BaseWeb.DTO;
 
-namespace SpotifyLib.BaseWeb.Interfaces
+namespace BaseWeb.Interfaces
 {
     public interface IJSONSerializer
     {
