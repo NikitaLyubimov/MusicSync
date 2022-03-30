@@ -12,18 +12,17 @@ namespace BaseWeb.Implementation
 {
     public class APIConnector : IAPIConnector
     {
+        private IAuthenticator _authenticator;
         private IHttpClient _httpClient;
         private IJSONSerializer _jsonSerializer;
         private Uri _baseUri;
 
-        public event AuthenticatorHandlerAsync AuthenticatorNotifyAsync;
-        public event AuthenticatorHandler AuthenticatorNotify;
-
-        public APIConnector(Uri baseUri, IJSONSerializer jsonSerializer, IHttpClient httpClient, bool useCookies=false)
+        public APIConnector(Uri baseUri, IJSONSerializer jsonSerializer, IHttpClient httpClient, IAuthenticator authenticator=null, bool useCookies=false)
         {
             _baseUri = baseUri;
             _jsonSerializer = jsonSerializer;
             _httpClient = httpClient;
+            _authenticator = authenticator;
         }
 
         public async Task<T> Post<T>(Uri uri, IDictionary<string, string> headers, object body)
@@ -42,6 +41,12 @@ namespace BaseWeb.Implementation
             return result;
         }
 
+
+        public async Task<Response> Put(Uri uri)
+        {
+            return await SendApiRequestFullResponse(uri, HttpMethod.Put);
+        }
+
         public async Task<T> Get<T>(Uri uri)
         {
             return await SendApiRequest<T>(uri, HttpMethod.Get);
@@ -54,6 +59,8 @@ namespace BaseWeb.Implementation
         {
             return await SendApiRequestFullResponse(uri, HttpMethod.Get);
         }
+
+ 
         public IEnumerable<Cookie> GetRequestCookies(Uri uri)
         {
             Uri fullUri;
@@ -86,11 +93,11 @@ namespace BaseWeb.Implementation
 
         private async Task ApplyAuthenticator(Request request)
         {
-            if (!request.EndPoint.IsAbsoluteUri && request.EndPoint.AbsoluteUri.Contains("https://api.spotify.com"))
+            if (!request.Uri.ToString().Contains("token"))
             {
-                await AuthenticatorNotifyAsync?.Invoke(request, this);
-                AuthenticatorNotify?.Invoke(request, this);
+                await _authenticator.ApplyAsync(request, this);
             }
+
         }
 
         private async Task<ApiResponse<T>> SendSerializedRequest<T>(Request request)
@@ -121,12 +128,16 @@ namespace BaseWeb.Implementation
                 Body = body,
                 Method = method,
                 Uri = uri.IsAbsoluteUri ? uri : _baseUri,
-                EndPoint = uri.IsAbsoluteUri ? new Uri("") : uri,
+                EndPoint = uri.IsAbsoluteUri ? new Uri(string.Empty, UriKind.Relative) : uri,
                 Headers = headers ?? new Dictionary<string, string>(),
                 Parameters = parameters ?? new Dictionary<string, string>()
             };
         }
 
-  
+        public bool SetAuthenticator(IAuthenticator authenticator)
+        {
+            _authenticator = authenticator;
+            return true;
+        }
     }
 }

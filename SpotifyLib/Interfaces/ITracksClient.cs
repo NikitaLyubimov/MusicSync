@@ -11,6 +11,8 @@ namespace SpotifyLib.Interfaces
     public interface ITracksClient
     {
         Task<GetTrackResponse> GetTrack(string trackName, string artistName);
+        Task<GetTracksResponse> GetTracks(int offset=0, int limit=20);
+        Task<bool> AddTracksToLibrary(IList<string> ids);
 
     }
 }

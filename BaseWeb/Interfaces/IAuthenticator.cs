@@ -11,6 +11,5 @@ namespace BaseWeb.Interfaces
     public interface IAuthenticator
     {
         Task ApplyAsync(Request request, IAPIConnector apiConnector);
-        void Apply(Request request, IAPIConnector apiConnector);
     }
 }

@@ -1,9 +1,6 @@
-.vs/
-BaseWeb/bin/
-BaseWeb/obj/
-SpotifyService/bin/
-SpotifyService/obj/
-YandexMusicService/obj/
-YandexMusicService/bin/
-SpotifyLib/bin/
-SpotifyLib/obj/
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages

@@ -13,22 +13,41 @@ using SpotifyLib.Utils;
 
 namespace SpotifyLib.Clients
 {
-    public class SpotifyClient
+    public class SpotifyClient : ISpotifyClient
     {
-        public IPlaylistsClient Playlists { get; set; }
-        public IAuthenticationClient Authentication { get; set; }
-        public ITracksClient Tracks { get; set; }
+        private IPlaylistsClient _playlists { get; set; }
+        private IAuthenticationClient _authentication { get; set; }
+        private ITracksClient _tracks { get; set; }
+
+        IPlaylistsClient ISpotifyClient.PlaylistsClient => _playlists;
+
+        IAuthenticationClient ISpotifyClient.AuthenticationClient => _authentication;
+
+        ITracksClient ISpotifyClient.TracksClient => _tracks;
+
         private IAPIConnector _apiConnector;
 
-        public SpotifyClient(AccessTokenResponse accessToken, string clientId, string clientSecret)
+        public SpotifyClient(string clientId, string clientSecret, AccessTokenResponse accessToken = null)
         {
-            var authenticator = new Authenticator(clientId, clientSecret, accessToken);
-            _apiConnector = new APIConnector(SpotifyUrls.SpotifyApiUri, new JSONSerializer(), new NetHttpClient());
-            _apiConnector.AuthenticatorNotifyAsync += authenticator.ApplyAsync;
+            IAuthenticator authenticator = null;
+            if(accessToken != null)
+                authenticator =  new Authenticator(clientId, clientSecret, accessToken);
+            _apiConnector = new APIConnector(SpotifyUrls.SpotifyApiUri, new JSONSerializer(), new NetHttpClient(), authenticator);
 
-            Playlists = new PlaylistsClient(_apiConnector);
-            Authentication = new AuthenticationClient(_apiConnector);
-            Tracks = new TracksClient(_apiConnector);
+        }
+
+        public async Task<bool> Auth(string clientId, string clientSecret, string code, Uri returnUri)
+        {
+            var tokenRequestObj = new AccessTokenRequest(clientId, clientSecret, "authorization_code", code, returnUri);
+            var response = await new AuthenticationClient().RequestToken(tokenRequestObj);
+            var authenticator = new Authenticator(clientId, clientSecret, response);
+            _apiConnector.SetAuthenticator(authenticator);
+
+            _playlists = new PlaylistsClient(_apiConnector);
+            _authentication = new AuthenticationClient(_apiConnector);
+            _tracks = new TracksClient(_apiConnector);
+
+            return true;
         }
     }
 }

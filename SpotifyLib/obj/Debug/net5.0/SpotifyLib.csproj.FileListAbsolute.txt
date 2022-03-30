@@ -1,0 +1,15 @@
+D:\Projects\MusicSync\SpotifyLib\bin\Debug\net5.0\SpotifyLib.deps.json
+D:\Projects\MusicSync\SpotifyLib\bin\Debug\net5.0\SpotifyLib.dll
+D:\Projects\MusicSync\SpotifyLib\bin\Debug\net5.0\ref\SpotifyLib.dll
+D:\Projects\MusicSync\SpotifyLib\bin\Debug\net5.0\SpotifyLib.pdb
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.csprojAssemblyReference.cache
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.AssemblyInfoInputs.cache
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.AssemblyInfo.cs
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.csproj.CoreCompileInputs.cache
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.dll
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\ref\SpotifyLib.dll
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.pdb
+D:\Projects\MusicSync\SpotifyLib\bin\Debug\net5.0\BaseWeb.dll
+D:\Projects\MusicSync\SpotifyLib\bin\Debug\net5.0\BaseWeb.pdb
+D:\Projects\MusicSync\SpotifyLib\obj\Debug\net5.0\SpotifyLib.csproj.CopyComplete

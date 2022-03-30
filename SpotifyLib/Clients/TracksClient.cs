@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -20,6 +22,21 @@ namespace SpotifyLib.Clients
         {
             var queryString = BuildQuery(trackName, artistName);
             return await _apiConnector.Get<GetTrackResponse>(SpotifyUrls.GetTrack(queryString));
+        }
+
+        public async Task<GetTracksResponse> GetTracks(int offset = 0, int limit = 20)
+        {
+            var response = await _apiConnector.Get<GetTracksResponse>(SpotifyUrls.GetTracksUri(offset, limit));
+            return response;
+        }
+
+        public async Task<bool> AddTracksToLibrary(IList<string> ids)
+        {
+            var idsString = string.Join(",", ids);
+            var response = await _apiConnector.Put(SpotifyUrls.AddTrackToLibraryUri(idsString));
+            if (response.StatusCode != HttpStatusCode.OK)
+                return false;
+            return true;
         }
 
         private string BuildQuery(string trackName, string artistName)
