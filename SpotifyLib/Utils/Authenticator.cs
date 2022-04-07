@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-using BaseWeb.DTO;
+using SpotifyLib.DTO.BaseWeb;
 using SpotifyLib.Interfaces;
 using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Clients;
-using BaseWeb.Interfaces;
+using SpotifyLib.Interfaces.BaseWeb;
 
 namespace SpotifyLib.Utils
 {

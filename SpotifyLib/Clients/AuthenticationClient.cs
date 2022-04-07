@@ -6,9 +6,9 @@ using System.Net.Http;
 
 using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Interfaces;
-using BaseWeb.Interfaces;
+using SpotifyLib.Interfaces.BaseWeb;
 using SpotifyLib.Constants;
-using BaseWeb.Implementation;
+using SpotifyLib.BaseWebImplementation;
 
 namespace SpotifyLib.Clients
 {

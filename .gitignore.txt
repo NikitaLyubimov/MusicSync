@@ -1,6 +1,13 @@
-/.vs
+/.vs/
 /.vscode
 /docs/build
-*/bin
-*/obj
+*/bin/
+*/obj/
 /output
+
+/YandexMusicSerice/obj/
+/YandexMusicSerice/bin/
+/SpotifyService/obj/
+/SpotifySerice/bin/
+/SpotifyLib/bin/
+/SpotifyLib/obj/

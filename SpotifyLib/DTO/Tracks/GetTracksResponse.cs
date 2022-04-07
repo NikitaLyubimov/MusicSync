@@ -9,6 +9,7 @@ namespace SpotifyLib.DTO.Tracks
     public class GetTracksResponse
     {
         public IList<UserItemInfo> Items { get; set; }
+        public int Total { get; set; }
     }
 
     public class UserItemInfo

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using BaseWeb.DTO;
+using SpotifyLib.DTO.BaseWeb;
 using SpotifyLib.DTO.Playlists;
 
 namespace SpotifyLib.Interfaces

@@ -9,6 +9,6 @@ namespace SpotifyService.Services.Interfaces
 {
     public interface ISynchroniseTracksService
     {
-        Task<bool> SynchroniseTracks(TracksResponse tracks);
+        Task<bool> SynchroniseTracks(TracksForQueueResponse tracks);
     }
 }

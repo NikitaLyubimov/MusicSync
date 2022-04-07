@@ -5,11 +5,14 @@ VisualStudioVersion = 16.0.30709.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyLib", "SpotifyLib\SpotifyLib.csproj", "{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseWeb", "BaseWeb\BaseWeb.csproj", "{DA3BCA9D-51D1-45A9-B7F1-8EC4CCEE18EC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyService", "SpotifyService\SpotifyService.csproj", "{E245A43E-2754-4157-B4FD-F92823B50E2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandexMusicService", "YandexMusicService\YandexMusicService.csproj", "{4A697218-929B-4A76-9658-FFEC2A085120}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexMusicService", "YandexMusicService\YandexMusicService.csproj", "{4A697218-929B-4A76-9658-FFEC2A085120}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KubernetesConfigs", "KubernetesConfigs", "{C18D6162-A09E-4668-884C-7C7421981369}"
+	ProjectSection(SolutionItems) = preProject
+		KubernetesConfigs\rabbitmq-deployment.yaml = KubernetesConfigs\rabbitmq-deployment.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +24,6 @@ Global
 		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA3BCA9D-51D1-45A9-B7F1-8EC4CCEE18EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA3BCA9D-51D1-45A9-B7F1-8EC4CCEE18EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA3BCA9D-51D1-45A9-B7F1-8EC4CCEE18EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA3BCA9D-51D1-45A9-B7F1-8EC4CCEE18EC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU

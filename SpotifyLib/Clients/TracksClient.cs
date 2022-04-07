@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-using BaseWeb.Interfaces;
+using SpotifyLib.Interfaces.BaseWeb;
 using SpotifyLib.Constants;
 using SpotifyLib.DTO.Tracks;
 using SpotifyLib.Interfaces;

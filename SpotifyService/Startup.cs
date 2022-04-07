@@ -1,26 +1,20 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 
-using SpotifyService.ViewModels;
 using SpotifyLib.Interfaces;
 using SpotifyLib.Clients;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
+using SpotifyService.ViewModels;
 using SpotifyService.Services.Interfaces;
 using SpotifyService.Services.Implementation;
+using SpotifyService.RabbitMqCommunication.Interfaces;
+using SpotifyService.RabbitMqCommunication.Implementations;
+using SpotifyService.Automapper;
 
 namespace SpotifyService
 {
@@ -45,9 +39,15 @@ namespace SpotifyService
             services.Configure<SpotifyCredsViewModel>(Configuration.GetSection("Spotify"));
 
             var regCreds = Configuration.GetSection("Spotify");
-            
+
+            services.AddAutoMapper(typeof(AppMappingProfile));
+
             services.AddSingleton<ISpotifyClient, SpotifyClient>(_ => new SpotifyClient(regCreds["ClientId"], regCreds["ClientSecret"]));
             services.AddTransient<ISynchroniseTracksService, SynchroniseTracksService>();
+            services.AddTransient<IPushTracksToSyncQueueService, PushTracksToSyncQueueService>();
+            services.AddTransient<IGetTracksService, GetTracksService>();
+
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

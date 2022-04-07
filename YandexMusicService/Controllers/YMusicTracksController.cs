@@ -18,14 +18,6 @@ namespace YandexMusicService.Controllers
     [ApiController]
     public class YMusicTracksController : ControllerBase
     {
-        private readonly YandexMusicApi _yandexMusicApi;
-        private readonly AuthStorage _authStorage;
-
-        public YMusicTracksController(YandexMusicApi yandexMusicApi, AuthStorage authStorage)
-        {
-            _yandexMusicApi = yandexMusicApi;
-            _authStorage = authStorage;
-        }
 
         [HttpPost("AddTracksToLibrary")]
         public async Task<IActionResult> AddTracksToLibrary([FromBody]AddTracksRequest addTracksRequest)

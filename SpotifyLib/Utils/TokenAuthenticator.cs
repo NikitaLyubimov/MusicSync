@@ -1,5 +1,5 @@
-﻿using BaseWeb.DTO;
-using BaseWeb.Interfaces;
+﻿using SpotifyLib.DTO.BaseWeb;
+using SpotifyLib.Interfaces.BaseWeb;
 using System;
 using System.Collections.Generic;
 using System.Linq;

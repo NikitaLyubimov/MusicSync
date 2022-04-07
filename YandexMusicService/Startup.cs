@@ -16,6 +16,8 @@ using Yandex.Music.Api;
 using Yandex.Music.Api.Common;
 using YandexMusicService.Services.Implementation;
 using YandexMusicService.Services.Interfaces;
+using YandexMusicService.Utils.Implementations;
+using YandexMusicService.Utils.Interfaces;
 
 namespace YandexMusicService
 {
@@ -33,6 +35,8 @@ namespace YandexMusicService
         {
 
             services.AddControllers();
+
+            services.AddHostedService<MessageBusSubscriber>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "YandexMusicService", Version = "v1" });
@@ -42,6 +46,7 @@ namespace YandexMusicService
             services.AddSingleton<AuthStorage>();
 
             services.AddTransient<IAddTracksToLibraryService, AddTracksToLibraryService>();
+            services.AddTransient<IRetryHandler, RetryHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

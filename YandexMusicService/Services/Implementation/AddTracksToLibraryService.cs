@@ -11,6 +11,7 @@ using Yandex.Music.Api.Models.Track;
 using YandexMusicService.DTOs.Request;
 using YandexMusicService.DTOs.Response;
 using YandexMusicService.Services.Interfaces;
+using YandexMusicService.Utils.Interfaces;
 
 namespace YandexMusicService.Services.Implementation
 {
@@ -18,11 +19,13 @@ namespace YandexMusicService.Services.Implementation
     {
         private readonly YandexMusicApi _yandexMusicApi;
         private readonly AuthStorage _authStorage;
+        private readonly IRetryHandler _retryHandler;
 
-        public AddTracksToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage)
+        public AddTracksToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler retryHandler)
         {
             _yandexMusicApi = yandexMusicApi;
             _authStorage = authStorage;
+            _retryHandler = retryHandler;
         }
         public async Task<AddTracksResponse> AddTracksToLibrary(AddTracksRequest addTracksRequest)
         {
@@ -49,22 +52,42 @@ namespace YandexMusicService.Services.Implementation
 
         private async Task<AddTrackResponse> AddTrackToLibrary(YTrack track)
         {
-            var result = await _yandexMusicApi.Library.AddTrackLikeAsync(_authStorage, track);
-            if (result.Result == null)
+            try
+            {
+                var result = await _yandexMusicApi.Library.AddTrackLikeAsync(_authStorage, track);
+                if (result.Result == null)
+                    return new AddTrackResponse
+                    {
+                        ArtistName = track.Artists[0].Name,
+                        TrackName = track.Title,
+                        Id = track.Id,
+                        IsSuccessAdded = false
+                    };
                 return new AddTrackResponse
                 {
                     ArtistName = track.Artists[0].Name,
                     TrackName = track.Title,
                     Id = track.Id,
-                    IsSuccessAdded = false
+                    IsSuccessAdded = true
                 };
-            return new AddTrackResponse
+            }
+            catch(Exception ex)
             {
-                ArtistName = track.Artists[0].Name,
-                TrackName = track.Title,
-                Id = track.Id,
-                IsSuccessAdded = true
-            };
+                Console.WriteLine(ex.Message);
+                var response = await _retryHandler.HandleRetry(async () =>
+                {
+                    var result = await _yandexMusicApi.Library.AddTrackLikeAsync(_authStorage, track);
+                    return new AddTrackResponse
+                    {
+                        ArtistName = track.Artists[0].Name,
+                        TrackName = track.Title,
+                        Id = track.Id,
+                        IsSuccessAdded = false
+                    };
+
+                });
+                return response;
+            }
         }
         private async Task<List<YResponse<List<YTrack>>>> GetTracks(List<string> ids)
         {
@@ -85,9 +108,19 @@ namespace YandexMusicService.Services.Implementation
 
         private async Task<string> GetTrackId(string trackName, string artistName)
         {
-            var result = await _yandexMusicApi.Search.TrackAsync(_authStorage, trackName);
-            var findedTrack = result.Result.Tracks.Results.FirstOrDefault(t => t.Artists.Any(a => a.Name.Equals(artistName)));
-            return findedTrack != null ? findedTrack.Id : string.Empty;
+            try
+            {
+                var result = await _yandexMusicApi.Search.TrackAsync(_authStorage, trackName);
+                if (result == null || result.Result.Tracks == null)
+                    return string.Empty;
+                var findedTrack = result.Result.Tracks.Results.FirstOrDefault(t => t.Artists.Any(a => a.Name.Equals(artistName)));
+                return findedTrack != null ? findedTrack.Id : string.Empty;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return string.Empty;
+            }
         }
     }
 }

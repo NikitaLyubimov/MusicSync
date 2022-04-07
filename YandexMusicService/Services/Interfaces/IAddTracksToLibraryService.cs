@@ -8,7 +8,7 @@ using YandexMusicService.DTOs.Response;
 
 namespace YandexMusicService.Services.Interfaces
 {
-    interface IAddTracksToLibraryService
+    public interface IAddTracksToLibraryService
     {
         Task<AddTracksResponse> AddTracksToLibrary(AddTracksRequest addTracksRequest);
     }

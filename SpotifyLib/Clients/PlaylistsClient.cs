@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using BaseWeb.DTO;
-using BaseWeb.Interfaces;
+using SpotifyLib.DTO.BaseWeb;
+using SpotifyLib.Interfaces.BaseWeb;
 using SpotifyLib.Constants;
 using SpotifyLib.DTO.Playlists;
 using SpotifyLib.Interfaces;

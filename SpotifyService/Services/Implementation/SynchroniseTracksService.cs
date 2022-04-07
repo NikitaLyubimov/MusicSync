@@ -17,7 +17,7 @@ namespace SpotifyService.Services.Implementation
         {
             _spotifyClient = spotifyClient;
         }
-        public async Task<bool> SynchroniseTracks(TracksResponse tracks)
+        public async Task<bool> SynchroniseTracks(TracksForQueueResponse tracks)
         {
             var tracksList = new List<GetTrackResponse>();
             foreach(var track in tracks.Tracks)

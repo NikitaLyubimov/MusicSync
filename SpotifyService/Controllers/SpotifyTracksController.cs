@@ -1,17 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-using SpotifyLib.Clients;
-
-using SpotifyService.ViewModels;
 using SpotifyService.ViewModels.Request;
-using SpotifyLib.DTO.Autherization;
-using SpotifyLib.Interfaces;
+using SpotifyService.Services.Interfaces;
+using SpotifyService.DTOs.Response;
 
 namespace SpotifyService.Controllers
 {
@@ -19,26 +11,40 @@ namespace SpotifyService.Controllers
     [ApiController]
     public class SpotifyTracksController : ControllerBase
     {
-        private readonly SpotifyCredsViewModel _spotifyCreds;
-        private readonly ISpotifyClient _spotifyClient;
-        public SpotifyTracksController(IOptions<SpotifyCredsViewModel> spotifyCreds, ISpotifyClient spotifyClient)
+        private readonly IPushTracksToSyncQueueService _pushTracksToSyncQueueService;
+        private readonly IGetTracksService _getTracksService;
+        public SpotifyTracksController(IPushTracksToSyncQueueService pushTracksToSyncQueueService, IGetTracksService getTracksService)
         {
-            _spotifyCreds = spotifyCreds.Value;
-            _spotifyClient = spotifyClient;
+            _pushTracksToSyncQueueService = pushTracksToSyncQueueService;
+            _getTracksService = getTracksService;
         }
 
         [HttpGet("GetTracks")]
         public async Task<IActionResult> GetTracks([FromQuery]SpotifyGetTracksRequestParameters parameters)
         {
-            var result = await _spotifyClient.TracksClient.GetTracks(parameters.Offset, parameters.Limit);
-            return Ok(result);
+            try
+            {
+                var result = await _getTracksService.GetTracks(parameters);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest(new TracksMetadataResponse { ExceptionString = "Unknown error occured" });
+            }
         }
 
-        [HttpGet("GetTrack")]
-        public async Task<IActionResult> GetTrack([FromQuery]SpotifyGetTrackRequestParameters parameters)
+        [HttpPost("AddTracksInSyncQueue")]
+        public async Task<IActionResult> AddTracksInSyncQueue([FromQuery]string queueType)
         {
-            var result = await _spotifyClient.TracksClient.GetTrack(parameters.TrackName, parameters.ArtistName);
-            return Ok(result);
+            try
+            {
+                await _pushTracksToSyncQueueService.PushTracks(queueType);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
     }
 }

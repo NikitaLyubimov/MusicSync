@@ -28,10 +28,10 @@ namespace SpotifyService.Controllers
         {
             try
             {
-                await _spotifyClient.Auth(_spotifyCreds.ClientId, _spotifyCreds.ClientSecret, code, new Uri("https://localhost:44343/api/SpotifyMusic/Auth"));
+                await _spotifyClient.Auth(_spotifyCreds.ClientId, _spotifyCreds.ClientSecret, code, new Uri(_spotifyCreds.ReturnUri));
                 return Ok();
             }
-            catch (Exception ex)
+            catch
             {
                 return BadRequest();
             }

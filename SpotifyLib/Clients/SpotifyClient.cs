@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BaseWeb.Implementation;
-using BaseWeb.Interfaces;
+using SpotifyLib.BaseWebImplementation;
+using SpotifyLib.Interfaces.BaseWeb;
 using SpotifyLib.Constants;
 using SpotifyLib.DTO.Autherization;
 using SpotifyLib.Interfaces;
