@@ -46,6 +46,7 @@ namespace SpotifyService
             services.AddTransient<ISynchroniseTracksService, SynchroniseTracksService>();
             services.AddTransient<IPushTracksToSyncQueueService, PushTracksToSyncQueueService>();
             services.AddTransient<IGetTracksService, GetTracksService>();
+            services.AddTransient<IPushPlaylistsToSyncQueueService, PushPlaylistsToSyncQueueService>();
 
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
         }

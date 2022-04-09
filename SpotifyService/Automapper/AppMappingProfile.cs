@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AutoMapper;
+using SpotifyLib.DTO.Playlists;
 using SpotifyLib.DTO.Tracks;
 using SpotifyService.DTOs.Response;
 
@@ -24,6 +25,22 @@ namespace SpotifyService.Automapper
                 .ForMember(dest => dest.TrackImages, opt => opt.MapFrom(src => src.Track.Album.Images))
                 .ForMember(dest => dest.AlbumName, opt => opt.MapFrom(src => src.Track.Album.Name));
             CreateMap<GetTracksResponse, TracksMetadataResponse>();
+
+            CreateMap<PlaylistItem, PlaylistForQueue>()
+                .ForMember(dest => dest.SpotifyId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Tracks, opt => opt.Ignore())
+                .ForSourceMember(src => src.Href, opt => opt.DoNotValidate())
+                .ForSourceMember(src => src.Images, opt => opt.DoNotValidate())
+                .ForSourceMember(src => src.Tracks, opt => opt.DoNotValidate());
+
+
+
+
+            CreateMap<PlaylistsListResponse, PlaylistsForQueueResponse>()
+                .ForMember(dest => dest.Playlists, opt => opt.MapFrom(src => src.Items))
+                .ForSourceMember(src => src.Href, opt => opt.DoNotValidate());
+                
         }
     }
 }

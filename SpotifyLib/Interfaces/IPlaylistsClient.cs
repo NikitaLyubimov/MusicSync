@@ -11,8 +11,8 @@ namespace SpotifyLib.Interfaces
 {
     public interface IPlaylistsClient
     {
-        Task<PlaylistsListResponse> GetCurrentUserPlaylists();
-        Task<PlaylistTracksResponse> GetPlaylistTracks(string playlistId);
+        Task<PlaylistsListResponse> GetCurrentUserPlaylists(int limit = 0, int offset = 0);
+        Task<PlaylistTracksResponse> GetPlaylistTracks(string playlistId, int limit = 0, int offset = 0);
         Task<Response> CreatePlaylist(CreatePlaylistRequest createPlaylistRequest);
         Task<Response> AddTracksToPlaylist(AddTracksToPlaylistRequest addTracksRequest, string playlistId);
     }

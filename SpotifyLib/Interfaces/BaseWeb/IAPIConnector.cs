@@ -18,6 +18,7 @@ namespace SpotifyLib.Interfaces.BaseWeb
         Task<T> Get<T>(Uri uri);
         Task<Response> Get(Uri uri);
         Task<T> Get<T>(Uri uri, IDictionary<string, string> headers);
+        Task<T> Get<T>(Uri uri, IDictionary<string, string> headers, IDictionary<string, string> parameters);
         IEnumerable<Cookie> GetRequestCookies(Uri uri);
 
         bool SetAuthenticator(IAuthenticator authenticator);

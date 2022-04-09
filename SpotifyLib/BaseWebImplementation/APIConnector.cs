@@ -8,6 +8,7 @@ using SpotifyLib.Interfaces.BaseWeb;
 using SpotifyLib.DTO.BaseWeb;
 using SpotifyLib.Interfaces;
 using SpotifyLib.Utils;
+using SpotifyLib.Exceptions;
 
 namespace SpotifyLib.BaseWebImplementation
 {
@@ -57,6 +58,11 @@ namespace SpotifyLib.BaseWebImplementation
         public async Task<T> Get<T>(Uri uri, IDictionary<string, string> headers)
         {
             return await SendApiRequest<T>(uri, HttpMethod.Get, headers);
+        }
+
+        public async Task<T> Get<T>(Uri uri, IDictionary<string, string> headers, IDictionary<string, string> parameters)
+        {
+            return await SendApiRequest<T>(uri, HttpMethod.Get, headers, parameters: parameters);
         }
         public async Task<Response> Get(Uri uri)
         {
@@ -129,6 +135,8 @@ namespace SpotifyLib.BaseWebImplementation
                     return newResponse;
                 }).ConfigureAwait(false);
             }
+            if (response.StatusCode != HttpStatusCode.OK)
+                throw new SpotifyApiException(response);
             return response;
         }
 
@@ -145,6 +153,7 @@ namespace SpotifyLib.BaseWebImplementation
                 Parameters = parameters ?? new Dictionary<string, string>()
             };
         }
+
 
         public bool SetAuthenticator(IAuthenticator authenticator)
         {

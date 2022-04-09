@@ -1,6 +1,6 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
+
 using SpotifyLib.DTO.BaseWeb;
 using SpotifyLib.Interfaces.BaseWeb;
 using SpotifyLib.Constants;
@@ -27,21 +27,34 @@ namespace SpotifyLib.Clients
             return await _apiConnector.Post(SpotifyUrls.CreatePlaylistUri("9itg0t81brz9r8xr557ax329e"), createPlaylistRequest);
         }
 
-        public async Task<PlaylistsListResponse> GetCurrentUserPlaylists()
+        public async Task<PlaylistsListResponse> GetCurrentUserPlaylists(int limit, int offset)
         {
-            return await SendCurrentUserPlaylistsRequest<PlaylistsListResponse>(_apiConnector);
+            if(limit == 0 && offset == 0)
+                return await _apiConnector.Get<PlaylistsListResponse>(SpotifyUrls.GetPlaylistsUri);
+            else
+            {
+                var parameters = new Dictionary<string, string>
+                {
+                    {"limit", limit.ToString() },
+                    {"offset", offset.ToString() }
+                };
+                return await _apiConnector.Get<PlaylistsListResponse>(SpotifyUrls.GetPlaylistsUri, null, parameters);
+            }
         }
 
-        public static async Task<T> SendCurrentUserPlaylistsRequest<T>(IAPIConnector apiConnector)
+        public async Task<PlaylistTracksResponse> GetPlaylistTracks(string playlistId, int limit = 0, int offset = 0)
         {
-            return await apiConnector.Get<T>(SpotifyUrls.GetPlaylistsUri);
-        }
-
-        public async Task<PlaylistTracksResponse> GetPlaylistTracks(string playlistId)
-        {
-            var getPlaylistTracksPath = $"{SpotifyUrls.PlaylistUri}/{playlistId}/tracks";
-            var getPlaylistTracksUri = new Uri(getPlaylistTracksPath);
-            return await _apiConnector.Get<PlaylistTracksResponse>(getPlaylistTracksUri);
+            if (limit == 0 && offset == 0)
+                return await _apiConnector.Get<PlaylistTracksResponse>(SpotifyUrls.GetPlaylistTracksUri(playlistId));
+            else
+            {
+                var parameters = new Dictionary<string, string>
+                {
+                    {"limit", limit.ToString() },
+                    {"offset", offset.ToString() }
+                };
+                return await _apiConnector.Get<PlaylistTracksResponse>(SpotifyUrls.GetPlaylistTracksUri(playlistId), null, parameters);
+            }
         }
         
     }
