@@ -12,9 +12,7 @@ Now i'm focusing on Yandex music and VK Music synchronization.
 |Functionality|Progress|
 |-------------|--------|
 |Tracks synchronization|In progress...|
-|----------------------|--------------|
 |Playlists synchronization|In queue...|
-|----------------------|--------------|
 |Albums synchronization|In queue...|
 
 
