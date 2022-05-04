@@ -11,6 +11,7 @@ Russian users of Spotify need to change their location in Spotify settings.
 
 ## Further focussing
 Now i'm focusing on Spotify and VK Music synchronization.
+
 Spotify -> Yandex Music
 |Functionality|Progress|
 |-------------|--------|
