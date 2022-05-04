@@ -5,11 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AutoMapper;
-
+using SpotifyLib.DTO.Playlists;
 using SpotifyLib.Interfaces;
 using SpotifyService.DTOs.Response;
 using SpotifyService.RabbitMqCommunication.Interfaces;
 using SpotifyService.Services.Interfaces;
+
+using CoreLib.Playlists;
+using CoreLib.TracksDTOs;
 
 namespace SpotifyService.Services.Implementation
 {
@@ -19,57 +22,72 @@ namespace SpotifyService.Services.Implementation
         private IMessageBusClient _messageBusClient;
         private IMapper _mapper;
 
-        private ConcurrentDictionary<string, List<TrackDtoResponse>> _tracksDictionary;
+        private int _totalPlaylistsCount;
 
         public PushPlaylistsToSyncQueueService(ISpotifyClient spotifyClient, IMessageBusClient messageBusClient, IMapper mapper)
         {
             _spotifyClient = spotifyClient;
             _messageBusClient = messageBusClient;
             _mapper = mapper;
-            _tracksDictionary = new();
         }
         public async Task PushPlaylists(string queuetype)
         {
             var playlists = await GetSpotifyPlaylistsWithTracks();
-
+            var pushPlaylistsToQueueTasks = playlists.Playlists.Select(playlist => PushPlaylistsToQueue(playlist));
+            await Task.WhenAll(pushPlaylistsToQueueTasks);
         }
 
-        private async Task<PlaylistsForQueueResponse> GetSpotifyPlaylistsWithTracks()
+        private async Task<bool> PushPlaylistsToQueue(PlaylistForQueue playlist)
         {
-            var result = await _spotifyClient.PlaylistsClient.GetCurrentUserPlaylists();
-            List<List<TrackDtoResponse>> getTracksForPlaylistsResult; 
-            if(result.Items.Count() > 50)
-            {
-                getTracksForPlaylistsResult = new();
-                var playlistsAmountList = Enumerable.Range(1, result.Items.Count());
-                var batchSize = 50;
-                var numberOfBatches = (int)Math.Ceiling((double)result.Items.Count() / batchSize);
+            return await Task.Run(() => _messageBusClient.PublishEntityForSync(playlist, "playlists"));
+        }
 
-                for(int i = 0; i < numberOfBatches; i++)
+        private async Task<PlaylistsForQueueDto> GetSpotifyPlaylistsWithTracks()
+        {
+            var batchSize = 50;
+
+            var finalPlaylistsList = await GetSpotifyPlaylistsWithTracks(0, batchSize);
+
+            if(_totalPlaylistsCount > batchSize)
+            {
+                var playlistsAmountList = Enumerable.Range(1, _totalPlaylistsCount / batchSize);
+                var numberOfBatches = (int)Math.Ceiling((double)playlistsAmountList.Count() / batchSize);
+
+                for(int i = 1; i < numberOfBatches; i++)
                 {
-                    var currentResult = result.Items.Skip(i * batchSize).Take(batchSize);
-                    var tasks = currentResult.Select(i => AddTracksToDictionaryForPlaylist(i.Id));
-                    await Task.WhenAll(tasks);
+                    var result = i < _totalPlaylistsCount / batchSize ? await GetSpotifyPlaylistsWithTracks(i * batchSize, batchSize)
+                                                                      : await GetSpotifyPlaylistsWithTracks(i * batchSize, _totalPlaylistsCount - i * batchSize);
+                    finalPlaylistsList.Playlists.AddRange(result.Playlists);
                 }
             }
-            else
-            {
-                var tasks = result.Items.Select(i => AddTracksToDictionaryForPlaylist(i.Id));
-                await Task.WhenAll(tasks);
-            }
 
-
-            var playlists = _mapper.Map<PlaylistsForQueueResponse>(result);
-            foreach (var playlist in playlists.Playlists)
-                playlist.Tracks = _tracksDictionary[playlist.SpotifyId];
-            return playlists;
+            return finalPlaylistsList;
         }
 
-        private async Task AddTracksToDictionaryForPlaylist(string playlistId)
+        private async Task<PlaylistsForQueueDto> GetSpotifyPlaylistsWithTracks(int offet, int limit)
         {
-            var spotifyResponse = await _spotifyClient.PlaylistsClient.GetPlaylistTracks(playlistId);
+            var result = await GetSpotifyPlaylists(offet, limit);
+            var addTracksToPlaylistsTasks = result.Playlists.Select(playlist => AddTracksToPlaylist(playlist));
+            await Task.WhenAll(addTracksToPlaylistsTasks);
+            return result;
+        }
+        
+
+        private async Task AddTracksToPlaylist(PlaylistForQueue playlist)
+        {
+            var spotifyResponse = await _spotifyClient.PlaylistsClient.GetPlaylistTracks(playlist.Id);
             var trackList = _mapper.Map<List<TrackDtoResponse>>(spotifyResponse.Items);
-            _tracksDictionary.TryAdd(playlistId, trackList);
+            playlist.Tracks = trackList;
+        }
+
+        private async Task<PlaylistsForQueueDto> GetSpotifyPlaylists(int limit = 0, int offset = 0)
+        {
+            var spotifyResponse = await _spotifyClient.PlaylistsClient.GetCurrentUserPlaylists(limit, offset);
+            if (_totalPlaylistsCount == 0)
+                _totalPlaylistsCount = spotifyResponse.Total;
+
+            var response = _mapper.Map<PlaylistsForQueueDto>(spotifyResponse);
+            return response;
         }
 
     }

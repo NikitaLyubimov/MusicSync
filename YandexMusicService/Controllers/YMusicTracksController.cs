@@ -19,21 +19,6 @@ namespace YandexMusicService.Controllers
     public class YMusicTracksController : ControllerBase
     {
 
-        [HttpPost("AddTracksToLibrary")]
-        public async Task<IActionResult> AddTracksToLibrary([FromBody]AddTracksRequest addTracksRequest)
-        {
-            try
-            {
-                var addTracksService = HttpContext.RequestServices.GetService<IAddTracksToLibraryService>();
-                var result = await addTracksService.AddTracksToLibrary(addTracksRequest);
-
-                return result.IsSuccess ? Ok(result) : BadRequest(result);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(new AddTracksResponse { ExceptionString = "Unknown error while adding tracks to library", IsSuccess = false });
-            }
-        }
 
 
     }

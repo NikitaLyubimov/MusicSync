@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace SpotifyService.DTOs.Response
+namespace CoreLib.TracksDTOs
 {
-    public class TracksForQueueResponse
+    public class TracksForQueueDto
     {
         public IList<TrackDtoResponse> Tracks { get; set; }
     }

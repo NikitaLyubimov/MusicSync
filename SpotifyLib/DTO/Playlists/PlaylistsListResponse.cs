@@ -6,6 +6,7 @@ namespace SpotifyLib.DTO.Playlists
     {
         public string Href { get; set; }
         public IList<PlaylistItem> Items { get; set; }
+        public int Total { get; set; }
     }
 
     public class PlaylistItem

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Text;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,9 @@ using RabbitMQ.Client.Events;
 
 using YandexMusicService.DTOs.Request;
 using YandexMusicService.Services.Interfaces;
-using System;
+
+using CoreLib.TracksDTOs;
+
 
 namespace YandexMusicService.Services.Implementation
 {
@@ -36,7 +39,8 @@ namespace YandexMusicService.Services.Implementation
             var factory = new ConnectionFactory()
             {
                 HostName = _configuration["RabbitMqHost"],
-                Port = int.Parse(_configuration["RabbitMqPort"])
+                Port = int.Parse(_configuration["RabbitMqPort"]),
+                DispatchConsumersAsync = true
             };
 
             _connection = factory.CreateConnection();
@@ -56,17 +60,16 @@ namespace YandexMusicService.Services.Implementation
         {
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
 
-            consumer.Received += (bc, ea) =>
+            consumer.Received +=  async (bc, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                var addTracksRequest = JsonConvert.DeserializeObject<AddTracksRequest>(message);
+                var addTracksRequest = JsonConvert.DeserializeObject<TracksForQueueDto>(message);
                 Console.WriteLine("YEsss");
-                var response = _addTracksToLibraryService.AddTracksToLibrary(addTracksRequest).GetAwaiter().GetResult();
+                var response = await _addTracksToLibraryService.AddTracksToLibrary(addTracksRequest);
                 _channel.BasicAck(ea.DeliveryTag, false);
-                //await Task.Yield();
             };
             _channel.BasicConsume(
                 queue: _queueName,

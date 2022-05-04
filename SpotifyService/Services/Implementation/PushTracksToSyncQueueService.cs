@@ -10,6 +10,8 @@ using SpotifyService.Services.Interfaces;
 
 using AutoMapper;
 
+using CoreLib.TracksDTOs;
+
 namespace SpotifyService.Services.Implementation
 {
     public class PushTracksToSyncQueueService : IPushTracksToSyncQueueService
@@ -27,28 +29,31 @@ namespace SpotifyService.Services.Implementation
         }
         public async Task PushTracks(string queueType)
         {
-            var firstBunchOfTracks = await GetSpotifyTracks(0, 50);
-            _messageBusClient.PublishTracksForSync(firstBunchOfTracks);
-            var getTracksAmountList = Enumerable.Range(1, _spotifyUserLibTotalTracks / 50);
-            List<TracksForQueueResponse> getTracksResults;
-            if(_spotifyUserLibTotalTracks > 50)
+            var batchSize = 50;
+
+            var firstBunchOfTracks = await GetSpotifyTracks(0, batchSize);
+            _messageBusClient.PublishEntityForSync(firstBunchOfTracks, "tracks");
+            var getTracksAmountList = Enumerable.Range(1, _spotifyUserLibTotalTracks / batchSize);
+            List<TracksForQueueDto> getTracksResults;
+
+            
+            if (_spotifyUserLibTotalTracks > batchSize)
             {
                 getTracksResults = new();
-                var batchSize = 50;
                 int numberOfBatches = (int)Math.Ceiling((double)getTracksAmountList.Count() / batchSize);
                 for(int i = 0; i < numberOfBatches; i++)
                 {
                     var currentIds = getTracksAmountList.Skip(i * batchSize).Take(batchSize);
-                    var tasks = currentIds.Select(id => id < _spotifyUserLibTotalTracks / 50 ? GetSpotifyTracks(id * 50, 50)
-                                                                : GetSpotifyTracks(id * 50, _spotifyUserLibTotalTracks - id * 50));
+                    var tasks = currentIds.Select(id => id < _spotifyUserLibTotalTracks / batchSize ? GetSpotifyTracks(id * batchSize, batchSize)
+                                                                : GetSpotifyTracks(id * batchSize, _spotifyUserLibTotalTracks - id * batchSize));
 
                     getTracksResults.AddRange(await Task.WhenAll(tasks));
                 }
             }
             else
             {
-                var tasks = getTracksAmountList.Select(id => id <= _spotifyUserLibTotalTracks / 50 ? GetSpotifyTracks(id * 50, 50)
-                                                                : GetSpotifyTracks(id * 50, _spotifyUserLibTotalTracks - id * 50));
+                var tasks = getTracksAmountList.Select(id => id <= _spotifyUserLibTotalTracks / batchSize ? GetSpotifyTracks(id * batchSize, batchSize)
+                                                                : GetSpotifyTracks(id * batchSize, _spotifyUserLibTotalTracks - id * batchSize));
                 getTracksResults = (await Task.WhenAll(tasks)).ToList();
                 
             }
@@ -56,18 +61,18 @@ namespace SpotifyService.Services.Implementation
             var results = await Task.WhenAll(pushTracksTasks);
         }
 
-        private async Task<bool> PushTracksToQueue(TracksForQueueResponse tracks)
+        private async Task<bool> PushTracksToQueue(TracksForQueueDto tracks)
         {
-            return await Task.Run(() => _messageBusClient.PublishTracksForSync(tracks));
+            return await Task.Run(() => _messageBusClient.PublishEntityForSync(tracks, "tracks"));
             
         }
 
-        private async Task<TracksForQueueResponse> GetSpotifyTracks(int offset, int limit)
+        private async Task<TracksForQueueDto> GetSpotifyTracks(int offset, int limit)
         {
             var spotifyResponse = await _spotifyClient.TracksClient.GetTracks(offset, limit);
             if (_spotifyUserLibTotalTracks == 0)
                 _spotifyUserLibTotalTracks = spotifyResponse.Total;
-            var response = _mapper.Map<TracksForQueueResponse>(spotifyResponse); 
+            var response = _mapper.Map<TracksForQueueDto>(spotifyResponse); 
             return response;
         }
     }

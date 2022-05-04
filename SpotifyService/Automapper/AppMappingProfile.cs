@@ -8,6 +8,9 @@ using SpotifyLib.DTO.Playlists;
 using SpotifyLib.DTO.Tracks;
 using SpotifyService.DTOs.Response;
 
+using CoreLib.Playlists;
+using CoreLib.TracksDTOs;
+
 namespace SpotifyService.Automapper
 {
     public class AppMappingProfile : Profile
@@ -16,8 +19,11 @@ namespace SpotifyService.Automapper
         {
             CreateMap<UserItemInfo, TrackDtoResponse>()
                 .ForMember(dest => dest.TrackName, opt => opt.MapFrom(src => src.Track.Name))
-                .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Track.Artists[0].Name));
-            CreateMap<GetTracksResponse, TracksForQueueResponse>();
+                .ForMember(dest => dest.ArtistName, opt => opt.MapFrom(src => src.Track.Artists[0].Name))
+                .ForSourceMember(src => src.AddedAt, opt => opt.DoNotValidate());
+            CreateMap<GetTracksResponse, TracksForQueueDto>()
+                .ForMember(dest => dest.Tracks, opt => opt.MapFrom(src => src.Items))
+                .ForSourceMember(src => src.Total, opt => opt.DoNotValidate());
 
             CreateMap<UserItemInfo, TrackMetadataResponse>()
                 .ForMember(dest => dest.TrackName, opt => opt.MapFrom(src => src.Track.Name))
@@ -33,6 +39,11 @@ namespace SpotifyService.Automapper
                 .ForSourceMember(src => src.Href, opt => opt.DoNotValidate())
                 .ForSourceMember(src => src.Images, opt => opt.DoNotValidate())
                 .ForSourceMember(src => src.Tracks, opt => opt.DoNotValidate());
+
+            CreateMap<PlaylistsListResponse, PlaylistsForQueueDto>()
+                .ForMember(dest => dest.Playlists, opt => opt.MapFrom(src => src.Items))
+                .ForSourceMember(src => src.Href, opt => opt.DoNotValidate())
+                .ForSourceMember(src => src.Total, opt => opt.DoNotValidate());
 
 
 

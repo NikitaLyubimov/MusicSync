@@ -13,6 +13,8 @@ using YandexMusicService.DTOs.Response;
 using YandexMusicService.Services.Interfaces;
 using YandexMusicService.Utils.Interfaces;
 
+using CoreLib.TracksDTOs;
+
 namespace YandexMusicService.Services.Implementation
 {
     public class AddTracksToLibraryService : IAddTracksToLibraryService
@@ -27,7 +29,7 @@ namespace YandexMusicService.Services.Implementation
             _authStorage = authStorage;
             _retryHandler = retryHandler;
         }
-        public async Task<AddTracksResponse> AddTracksToLibrary(AddTracksRequest addTracksRequest)
+        public async Task<AddTracksResponse> AddTracksToLibrary(TracksForQueueDto addTracksRequest)
         {
             var tracksIds = await GetTracksIds(addTracksRequest);
             var tracks = await GetTracks(tracksIds);
@@ -96,7 +98,7 @@ namespace YandexMusicService.Services.Implementation
             return getTrackByIdResults.ToList();
         }
 
-        private async Task<List<string>> GetTracksIds(AddTracksRequest addTracksRequest)
+        private async Task<List<string>> GetTracksIds(TracksForQueueDto addTracksRequest)
         {
             var idsList = new List<string>();
 

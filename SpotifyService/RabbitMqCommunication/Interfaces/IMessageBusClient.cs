@@ -8,6 +8,6 @@ namespace SpotifyService.RabbitMqCommunication.Interfaces
 {
     public interface IMessageBusClient
     {
-        bool PublishTracksForSync(TracksForQueueResponse tracks);
+        bool PublishEntityForSync<T>(T entity, string routingKey);
     }
 }

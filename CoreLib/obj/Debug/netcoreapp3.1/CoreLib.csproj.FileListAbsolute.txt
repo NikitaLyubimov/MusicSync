@@ -1,0 +1,4 @@
+D:\Projects\MusicSync\CoreLib\obj\Debug\netcoreapp3.1\CoreLib.csprojAssemblyReference.cache
+D:\Projects\MusicSync\CoreLib\obj\Debug\netcoreapp3.1\CoreLib.AssemblyInfoInputs.cache
+D:\Projects\MusicSync\CoreLib\obj\Debug\netcoreapp3.1\CoreLib.AssemblyInfo.cs
+D:\Projects\MusicSync\CoreLib\obj\Debug\netcoreapp3.1\CoreLib.csproj.CoreCompileInputs.cache

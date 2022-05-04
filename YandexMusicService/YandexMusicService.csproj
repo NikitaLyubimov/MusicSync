@@ -16,8 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Yandex.Music.Api">
-      <HintPath>..\..\..\Yandex.Music.Api-master\Yandex.Music.Api-master\Yandex.Music.Api\bin\Release\net5.0\Yandex.Music.Api.dll</HintPath>
+      <HintPath>..\..\Yandex.Music.Api\Yandex.Music.Api\bin\Release\net5.0\Yandex.Music.Api.dll</HintPath>
     </Reference>
   </ItemGroup>
 

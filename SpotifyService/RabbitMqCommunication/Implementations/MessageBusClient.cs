@@ -26,20 +26,21 @@ namespace SpotifyService.RabbitMqCommunication.Implementations
                 _connection = factory.CreateConnection();
                 _chanel = _connection.CreateModel();
 
-                _chanel.ExchangeDeclare(exchange: "musicsync", type: ExchangeType.Fanout);
+                _chanel.ExchangeDeclare(exchange: "musicsync", type: ExchangeType.Direct);
             }
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
         }
-        public bool PublishTracksForSync(TracksForQueueResponse tracks)
+
+        public bool PublishEntityForSync<T>(T entity, string routingKey)
         {
-            var message = JsonSerializer.Serialize(tracks);
+            var message = JsonSerializer.Serialize(entity);
 
             if (_connection.IsOpen)
             {
-                SendMessage(message);
+                SendMessage(message, routingKey);
                 return true;
             }
             else
@@ -49,11 +50,11 @@ namespace SpotifyService.RabbitMqCommunication.Implementations
             }
         }
 
-        private void SendMessage(string message)
+        private void SendMessage(string message, string routingKey)
         {
             var body = Encoding.UTF8.GetBytes(message);
             _chanel.BasicPublish(exchange: "musicsync",
-                                routingKey: "",
+                                routingKey: routingKey,
                                 basicProperties: null,
                                 body: body);
         }

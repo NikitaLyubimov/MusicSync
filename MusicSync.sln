@@ -7,12 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyLib", "SpotifyLib\Sp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyService", "SpotifyService\SpotifyService.csproj", "{E245A43E-2754-4157-B4FD-F92823B50E2C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexMusicService", "YandexMusicService\YandexMusicService.csproj", "{4A697218-929B-4A76-9658-FFEC2A085120}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KubernetesConfigs", "KubernetesConfigs", "{C18D6162-A09E-4668-884C-7C7421981369}"
 	ProjectSection(SolutionItems) = preProject
 		KubernetesConfigs\rabbitmq-deployment.yaml = KubernetesConfigs\rabbitmq-deployment.yaml
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexMusicService", "YandexMusicService\YandexMusicService.csproj", "{28565534-C2AD-4911-91B8-AE61F05B6FD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib", "CoreLib\CoreLib.csproj", "{49119997-90CF-4675-8E71-289780289314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +30,14 @@ Global
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A697218-929B-4A76-9658-FFEC2A085120}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A697218-929B-4A76-9658-FFEC2A085120}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A697218-929B-4A76-9658-FFEC2A085120}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A697218-929B-4A76-9658-FFEC2A085120}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49119997-90CF-4675-8E71-289780289314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49119997-90CF-4675-8E71-289780289314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49119997-90CF-4675-8E71-289780289314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49119997-90CF-4675-8E71-289780289314}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
