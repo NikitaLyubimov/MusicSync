@@ -13,7 +13,8 @@ using YandexMusicService.DTOs.Request;
 using YandexMusicService.Services.Interfaces;
 
 using CoreLib.TracksDTOs;
-
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace YandexMusicService.Services.Implementation
 {
@@ -25,6 +26,7 @@ namespace YandexMusicService.Services.Implementation
         private string _queueName;
 
         private IAddTracksToLibraryService _addTracksToLibraryService;
+        private IServiceProvider _serviceProvider;
 
         public MessageBusSubscriber(IConfiguration configuration, IAddTracksToLibraryService addTracksToLibraryService)
         {
@@ -47,12 +49,18 @@ namespace YandexMusicService.Services.Implementation
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(
                 exchange: "musicsync",
-                type: ExchangeType.Fanout);
+                type: ExchangeType.Direct);
             _queueName = _channel.QueueDeclare().QueueName;
             _channel.QueueBind(
                 queue: _queueName,
                 exchange: "musicsync",
-                routingKey: "");
+                routingKey: "playlists");
+
+            _channel.QueueBind(
+                queue: _queueName,
+                exchange: "musicsync",
+                routingKey: "tracks"
+                );
 
         }
 
@@ -65,10 +73,9 @@ namespace YandexMusicService.Services.Implementation
             consumer.Received +=  async (bc, ea) =>
             {
                 var body = ea.Body.ToArray();
+                var routingKey = ea.RoutingKey;
                 var message = Encoding.UTF8.GetString(body);
-                var addTracksRequest = JsonConvert.DeserializeObject<TracksForQueueDto>(message);
-                Console.WriteLine("YEsss");
-                var response = await _addTracksToLibraryService.AddTracksToLibrary(addTracksRequest);
+                await ExecuteSynchronization(routingKey, message);
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
             _channel.BasicConsume(
@@ -77,6 +84,19 @@ namespace YandexMusicService.Services.Implementation
                 consumer: consumer);
 
             return Task.CompletedTask;
+        }
+
+        private async Task ExecuteSynchronization(string routingKey, string message)
+        {
+            switch (routingKey)
+            {
+                case "tracks":
+                    var addTracksService = _serviceProvider.GetRequiredService<IAddTracksToLibraryService>();
+                    var addTracksRequest = JsonConvert.DeserializeObject<TracksForQueueDto>(message);
+                    await addTracksService.AddTracksToLibrary(addTracksRequest);
+                    break;
+                
+            }
         }
 
 

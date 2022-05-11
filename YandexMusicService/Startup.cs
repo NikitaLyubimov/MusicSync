@@ -46,6 +46,7 @@ namespace YandexMusicService
             services.AddSingleton<AuthStorage>();
 
             services.AddTransient<IAddTracksToLibraryService, AddTracksToLibraryService>();
+            services.AddTransient<IAddPlaylistsToLibraryService, AddPlaylistsToLibraryService>();
             services.AddTransient<IRetryHandler, RetryHandler>();
         }
 

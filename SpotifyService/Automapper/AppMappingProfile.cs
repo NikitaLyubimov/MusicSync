@@ -33,7 +33,7 @@ namespace SpotifyService.Automapper
             CreateMap<GetTracksResponse, TracksMetadataResponse>();
 
             CreateMap<PlaylistItem, PlaylistForQueue>()
-                .ForMember(dest => dest.SpotifyId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.Tracks, opt => opt.Ignore())
                 .ForSourceMember(src => src.Href, opt => opt.DoNotValidate())
@@ -45,12 +45,6 @@ namespace SpotifyService.Automapper
                 .ForSourceMember(src => src.Href, opt => opt.DoNotValidate())
                 .ForSourceMember(src => src.Total, opt => opt.DoNotValidate());
 
-
-
-
-            CreateMap<PlaylistsListResponse, PlaylistsForQueueResponse>()
-                .ForMember(dest => dest.Playlists, opt => opt.MapFrom(src => src.Items))
-                .ForSourceMember(src => src.Href, opt => opt.DoNotValidate());
                 
         }
     }

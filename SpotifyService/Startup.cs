@@ -43,7 +43,6 @@ namespace SpotifyService
             services.AddAutoMapper(typeof(AppMappingProfile));
 
             services.AddSingleton<ISpotifyClient, SpotifyClient>(_ => new SpotifyClient(regCreds["ClientId"], regCreds["ClientSecret"]));
-            services.AddTransient<ISynchroniseTracksService, SynchroniseTracksService>();
             services.AddTransient<IPushTracksToSyncQueueService, PushTracksToSyncQueueService>();
             services.AddTransient<IGetTracksService, GetTracksService>();
             services.AddTransient<IPushPlaylistsToSyncQueueService, PushPlaylistsToSyncQueueService>();
