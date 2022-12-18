@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using YandexMusicService.DTOs.Request;
+using IYandexMusicLogic.DTOs.Request;
 
 using Yandex.Music.Api;
 using Yandex.Music.Api.Common;

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-using SpotifyService.ViewModels.Request;
-using SpotifyService.Services.Interfaces;
-using SpotifyService.DTOs.Response;
+using ISpotifyLogic.Services;
+using ISpotifyLogic.ViewModels.Request;
+using ISpotifyLogic.DTOs.Response;
 
 namespace SpotifyService.Controllers
 {

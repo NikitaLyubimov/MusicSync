@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ISpotifyLogic.Services;
 using Microsoft.AspNetCore.Mvc;
-using SpotifyService.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpotifyService.Controllers
