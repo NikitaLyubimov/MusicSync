@@ -11,9 +11,9 @@ namespace YandexMusicLogic.Services
 {
     public class AddTracksToLibraryService : LibraryCommunication, IAddTracksToLibraryService
     {
-        private readonly IRetryHandler<AddTrackResponse> _retryHandler;
+        private readonly IRetryHandler _retryHandler;
 
-        public AddTracksToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler<AddTrackResponse> retryHandler) : base(yandexMusicApi, authStorage)
+        public AddTracksToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler retryHandler) : base(yandexMusicApi, authStorage)
         {
             _retryHandler = retryHandler;
         }

@@ -2,9 +2,9 @@
 
 namespace CoreLib.Utils.Interfaces
 {
-    public interface IRetryHandler<T>
+    public interface IRetryHandler
     {
-        delegate Task<T> RetryMethod();
-        Task<T> HandleRetry(RetryMethod retry);
+        delegate Task<TResponse> RetryMethod<TResponse>();
+        Task<TResponse> HandleRetry<TResponse>(RetryMethod<TResponse> retry);
     }
 }

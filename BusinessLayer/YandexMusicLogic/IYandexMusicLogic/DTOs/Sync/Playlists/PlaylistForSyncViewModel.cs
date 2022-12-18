@@ -2,9 +2,5 @@
 
 namespace IYandexMusicLogic.DTOs.Playlists
 {
-    public class PlaylistForSyncViewModel
-    {
-        public string Name { get; set; }
-        public List<YTrack> Tracks { get; set; }
-    }
+    public record PlaylistForSyncViewModel(string Name, List<YTrack> Tracks);
 }

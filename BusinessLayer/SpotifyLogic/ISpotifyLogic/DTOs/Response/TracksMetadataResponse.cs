@@ -1,28 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ISpotifyLogic.DTOs.Response
+﻿namespace ISpotifyLogic.DTOs.Response
 {
-    public class TracksMetadataResponse
-    {
-        public IList<TrackMetadataResponse> Tracks { get; set; }
-        public string ExceptionString { get; set; }
-    }
+    public record TracksMetadataResponse(IList<TrackMetadataResponse> Tracks, string ExceptionString);
 
-    public class TrackMetadataResponse
-    {
-        public string ArtistName { get; set; }
-        public string TrackName { get; set; }
-        public string AlbumName { get; set; }
-        public IList<TrackImageInfo> TrackImages { get; set; } 
-    }
+    public record TrackMetadataResponse(string ArtistName, string TrackName, string AlbumName, IList<TrackImageInfo> TrackImages);
 
-    public class TrackImageInfo
-    {
-        public string Height { get; set; }
-        public string Uri { get; set; }
-        public string Width { get; set; }
-    }
+    public record TrackImageInfo(string Height, string Uri, string Width);
 }

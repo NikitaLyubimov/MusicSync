@@ -1,6 +1,6 @@
 ﻿namespace IYandexMusicLogic.DTOs.Response
 {
-    public class AddPlaylistsResponse
+    public record AddPlaylistsResponse
     {
     }
 }

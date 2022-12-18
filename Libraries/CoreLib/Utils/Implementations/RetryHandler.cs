@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace CoreLib.Utils.Implementations
 {
-    public class RetryHandler<T> : IRetryHandler<T>
+    public class RetryHandler : IRetryHandler
     {
-        public async Task<T> HandleRetry(IRetryHandler<T>.RetryMethod retry)
+        public async Task<TResponse> HandleRetry<TResponse>(IRetryHandler.RetryMethod<TResponse> retry)
         {
-            return await HandleRetryInternal(retry);
+            return await HandleRetryInternal<TResponse>(retry);
         }
 
-        private async Task<T> HandleRetryInternal(IRetryHandler<T>.RetryMethod retry)
+        private async Task<TResponse> HandleRetryInternal<TResponse>(IRetryHandler.RetryMethod<TResponse> retry)
         {
             try
             {

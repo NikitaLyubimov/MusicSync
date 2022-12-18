@@ -1,17 +1,6 @@
 ﻿namespace IYandexMusicLogic.DTOs.Response
 {
-    public class AddTracksResponse
-    {
-        public IList<AddTrackResponse> Tracks { get; set; }
-        public bool IsSuccess { get; set; }
-        public string ExceptionString { get; set; }
-    }
+    public record AddTracksResponse(IList<AddTrackResponse> Tracks, bool IsSuccess, string ExceptionString);
 
-    public class AddTrackResponse
-    {
-        public string Id { get; set; }
-        public string ArtistName { get; set; }
-        public string TrackName { get; set; }
-        public bool IsSuccessAdded { get; set; }
-    }
+    public record AddTrackResponse(string Id, string ArtistName, string TrackName, bool IsSuccessAdded);
 }
