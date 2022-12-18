@@ -9,11 +9,9 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-using YandexMusicService.DTOs.Request;
 using YandexMusicService.Services.Interfaces;
 
 using CoreLib.TracksDTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace YandexMusicService.Services.Implementation

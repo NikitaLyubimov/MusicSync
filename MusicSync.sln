@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30709.132
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyLib", "SpotifyLib\SpotifyLib.csproj", "{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyService", "SpotifyService\SpotifyService.csproj", "{E245A43E-2754-4157-B4FD-F92823B50E2C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KubernetesConfigs", "KubernetesConfigs", "{C18D6162-A09E-4668-884C-7C7421981369}"
@@ -14,7 +12,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KubernetesConfigs", "Kubern
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandexMusicService", "YandexMusicService\YandexMusicService.csproj", "{28565534-C2AD-4911-91B8-AE61F05B6FD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib", "CoreLib\CoreLib.csproj", "{49119997-90CF-4675-8E71-289780289314}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{0083E0B2-55BF-4CA5-A597-F0C1C9A70AD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PresentationLayer", "PresentationLayer", "{291EF2D2-0F7F-4263-A590-79945DBB9156}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BusinessLayer", "BusinessLayer", "{0F99C703-B49F-440E-B813-C4D2B3F79723}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpotifyLogic", "SpotifyLogic", "{64C1221D-72ED-40EB-8C10-827628624D61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpotifyLogic", "BusinessLayer\SpotifyLogic\SpotifyLogic\SpotifyLogic.csproj", "{CA7AC56F-8DCD-4EAC-A029-2CEE6E66518E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISpotifyLogic", "BusinessLayer\SpotifyLogic\ISpotifyLogic\ISpotifyLogic.csproj", "{CCBC882E-C2CD-43E7-B266-2EAAB3055F6C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreLib", "Libraries\CoreLib\CoreLib.csproj", "{C65AFC87-4B7E-4B0C-A99A-C4579E4E5260}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpotifyLib", "Libraries\SpotifyLib\SpotifyLib.csproj", "{8C25C8B2-E473-4A7B-9A8D-84FAE9CAC5C4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +34,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA0F9503-9CFE-4DCE-84EB-E4BE5FDDA404}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E245A43E-2754-4157-B4FD-F92823B50E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,13 +42,34 @@ Global
 		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28565534-C2AD-4911-91B8-AE61F05B6FD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49119997-90CF-4675-8E71-289780289314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49119997-90CF-4675-8E71-289780289314}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49119997-90CF-4675-8E71-289780289314}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49119997-90CF-4675-8E71-289780289314}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7AC56F-8DCD-4EAC-A029-2CEE6E66518E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7AC56F-8DCD-4EAC-A029-2CEE6E66518E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7AC56F-8DCD-4EAC-A029-2CEE6E66518E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7AC56F-8DCD-4EAC-A029-2CEE6E66518E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCBC882E-C2CD-43E7-B266-2EAAB3055F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCBC882E-C2CD-43E7-B266-2EAAB3055F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCBC882E-C2CD-43E7-B266-2EAAB3055F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCBC882E-C2CD-43E7-B266-2EAAB3055F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C65AFC87-4B7E-4B0C-A99A-C4579E4E5260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C65AFC87-4B7E-4B0C-A99A-C4579E4E5260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C65AFC87-4B7E-4B0C-A99A-C4579E4E5260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C65AFC87-4B7E-4B0C-A99A-C4579E4E5260}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C25C8B2-E473-4A7B-9A8D-84FAE9CAC5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C25C8B2-E473-4A7B-9A8D-84FAE9CAC5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C25C8B2-E473-4A7B-9A8D-84FAE9CAC5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C25C8B2-E473-4A7B-9A8D-84FAE9CAC5C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E245A43E-2754-4157-B4FD-F92823B50E2C} = {291EF2D2-0F7F-4263-A590-79945DBB9156}
+		{28565534-C2AD-4911-91B8-AE61F05B6FD7} = {291EF2D2-0F7F-4263-A590-79945DBB9156}
+		{64C1221D-72ED-40EB-8C10-827628624D61} = {0F99C703-B49F-440E-B813-C4D2B3F79723}
+		{CA7AC56F-8DCD-4EAC-A029-2CEE6E66518E} = {64C1221D-72ED-40EB-8C10-827628624D61}
+		{CCBC882E-C2CD-43E7-B266-2EAAB3055F6C} = {64C1221D-72ED-40EB-8C10-827628624D61}
+		{C65AFC87-4B7E-4B0C-A99A-C4579E4E5260} = {0083E0B2-55BF-4CA5-A597-F0C1C9A70AD7}
+		{8C25C8B2-E473-4A7B-9A8D-84FAE9CAC5C4} = {0083E0B2-55BF-4CA5-A597-F0C1C9A70AD7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B35C4B8-04BE-4132-9411-48CBEEEC1C44}
