@@ -5,16 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-
-using SpotifyLib.Interfaces;
-using SpotifyLib.Clients;
-
 using SpotifyService.ViewModels;
-using SpotifyService.Services.Interfaces;
-using SpotifyService.Services.Implementation;
-using SpotifyService.RabbitMqCommunication.Interfaces;
+using SpotifyLogic;
+using CoreLib.RabbitMQCommunication.Interfaces;
 using SpotifyService.RabbitMqCommunication.Implementations;
-using SpotifyService.Automapper;
 
 namespace SpotifyService
 {
@@ -38,14 +32,7 @@ namespace SpotifyService
             });
             services.Configure<SpotifyCredsViewModel>(Configuration.GetSection("Spotify"));
 
-            var regCreds = Configuration.GetSection("Spotify");
-
-            services.AddAutoMapper(typeof(AppMappingProfile));
-
-            services.AddSingleton<ISpotifyClient, SpotifyClient>(_ => new SpotifyClient(regCreds["ClientId"], regCreds["ClientSecret"]));
-            services.AddTransient<IPushTracksToSyncQueueService, PushTracksToSyncQueueService>();
-            services.AddTransient<IGetTracksService, GetTracksService>();
-            services.AddTransient<IPushPlaylistsToSyncQueueService, PushPlaylistsToSyncQueueService>();
+            services.AddSpotifyLogic(Configuration); 
 
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
         }

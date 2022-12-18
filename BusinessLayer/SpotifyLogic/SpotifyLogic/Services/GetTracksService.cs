@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
+using ISpotifyLogic.DTOs.Response;
+using ISpotifyLogic.Services;
+using ISpotifyLogic.ViewModels.Request;
 using SpotifyLib.Interfaces;
-using SpotifyService.DTOs.Response;
-using SpotifyService.Services.Interfaces;
-using SpotifyService.ViewModels.Request;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SpotifyService.Services.Implementation
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SpotifyService.DTOs.Response
+namespace ISpotifyLogic.DTOs.Response
 {
     public class TracksMetadataResponse
     {

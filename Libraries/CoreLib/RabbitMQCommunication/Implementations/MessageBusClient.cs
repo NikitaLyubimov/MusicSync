@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using CoreLib.RabbitMQCommunication.Interfaces;
 using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
-using SpotifyService.DTOs.Response;
-using SpotifyService.RabbitMqCommunication.Interfaces;
 
 namespace SpotifyService.RabbitMqCommunication.Implementations
 {

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using AutoMapper;
+﻿using AutoMapper;
 using SpotifyLib.DTO.Playlists;
 using SpotifyLib.DTO.Tracks;
-using SpotifyService.DTOs.Response;
 
 using CoreLib.Playlists;
 using CoreLib.TracksDTOs;
+using ISpotifyLogic.DTOs.Response;
 
 namespace SpotifyService.Automapper
 {
@@ -44,8 +39,6 @@ namespace SpotifyService.Automapper
                 .ForMember(dest => dest.Playlists, opt => opt.MapFrom(src => src.Items))
                 .ForSourceMember(src => src.Href, opt => opt.DoNotValidate())
                 .ForSourceMember(src => src.Total, opt => opt.DoNotValidate());
-
-                
         }
     }
 }

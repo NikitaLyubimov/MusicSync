@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using SpotifyLib.Interfaces;
-using SpotifyService.DTOs.Response;
-using SpotifyService.RabbitMqCommunication.Interfaces;
-using SpotifyService.Services.Interfaces;
+﻿using SpotifyLib.Interfaces;
 
 using AutoMapper;
 
 using CoreLib.TracksDTOs;
+using ISpotifyLogic.Services;
+using CoreLib.RabbitMQCommunication.Interfaces;
 
 namespace SpotifyService.Services.Implementation
 {
