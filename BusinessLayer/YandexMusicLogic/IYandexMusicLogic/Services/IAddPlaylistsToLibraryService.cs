@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using CoreLib.Playlists;
+using IYandexMusicLogic.DTOs.Response;
 
-using YandexMusicService.DTOs.Response;
-using CoreLib.Playlists;
-
-namespace YandexMusicService.Services.Interfaces
+namespace IYandexMusicLogic.Services
 {
     public interface IAddPlaylistsToLibraryService
     {

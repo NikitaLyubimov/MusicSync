@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-
-using Yandex.Music.Api;
+﻿using Yandex.Music.Api;
 using Yandex.Music.Api.Common;
-using Yandex.Music.Api.Models.Common;
 using Yandex.Music.Api.Models.Track;
-using YandexMusicService.DTOs.Response;
-using YandexMusicService.Services.Interfaces;
-using YandexMusicService.Utils.Interfaces;
 
 using CoreLib.TracksDTOs;
+using IYandexMusicLogic.Services;
+using CoreLib.Utils.Interfaces;
+using IYandexMusicLogic.DTOs.Response;
 
-namespace YandexMusicService.Services.Implementation
+namespace YandexMusicLogic.Services
 {
     public class AddTracksToLibraryService : LibraryCommunication, IAddTracksToLibraryService
     {
-        private readonly IRetryHandler _retryHandler;
+        private readonly IRetryHandler<AddTrackResponse> _retryHandler;
 
-        public AddTracksToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler retryHandler) : base(yandexMusicApi, authStorage)
+        public AddTracksToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler<AddTrackResponse> retryHandler) : base(yandexMusicApi, authStorage)
         {
             _retryHandler = retryHandler;
         }

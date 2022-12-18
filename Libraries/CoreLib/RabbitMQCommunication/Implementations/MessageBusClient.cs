@@ -5,7 +5,7 @@ using CoreLib.RabbitMQCommunication.Interfaces;
 using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 
-namespace SpotifyService.RabbitMqCommunication.Implementations
+namespace CoreLib.RabbitMQCommunication.Implementations
 {
     public class MessageBusClient : IMessageBusClient
     {

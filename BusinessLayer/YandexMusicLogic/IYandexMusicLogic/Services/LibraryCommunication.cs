@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Yandex.Music.Api;
+﻿using Yandex.Music.Api;
 using Yandex.Music.Api.Common;
 using Yandex.Music.Api.Models.Common;
 using Yandex.Music.Api.Models.Track;
 
 using CoreLib.TracksDTOs;
 
-namespace YandexMusicService.Services.Interfaces
+namespace IYandexMusicLogic.Services
 {
     public abstract class LibraryCommunication
     {
-        internal readonly YandexMusicApi _yandexMusicApi;
-        internal readonly AuthStorage _authStorage;
+        protected readonly YandexMusicApi _yandexMusicApi;
+        protected readonly AuthStorage _authStorage;
 
         public LibraryCommunication(YandexMusicApi yandexMusicApi, AuthStorage authStorage)
         {
@@ -23,7 +18,7 @@ namespace YandexMusicService.Services.Interfaces
             _authStorage = authStorage;
         }
 
-        internal async Task<List<YResponse<List<YTrack>>>> GetTracks(TracksForQueueDto addTracksRequest)
+        protected async Task<List<YResponse<List<YTrack>>>> GetTracks(TracksForQueueDto addTracksRequest)
         {
             var trackIds = await GetTracksIds(addTracksRequest);
 

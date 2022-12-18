@@ -1,20 +1,16 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System.Text;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
-using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-using YandexMusicService.Services.Interfaces;
-
 using CoreLib.TracksDTOs;
 using Microsoft.Extensions.DependencyInjection;
+using IYandexMusicLogic.Services;
+using System.Text.Json;
 
-namespace YandexMusicService.Services.Implementation
+namespace YandexMusicLogic.BackgroundServices
 {
     public class MessageBusSubscriber : BackgroundService
     {
@@ -90,7 +86,7 @@ namespace YandexMusicService.Services.Implementation
             {
                 case "tracks":
                     var addTracksService = _serviceProvider.GetRequiredService<IAddTracksToLibraryService>();
-                    var addTracksRequest = JsonConvert.DeserializeObject<TracksForQueueDto>(message);
+                    var addTracksRequest = JsonSerializer.Deserialize<TracksForQueueDto>(message);
                     await addTracksService.AddTracksToLibrary(addTracksRequest);
                     break;
                 

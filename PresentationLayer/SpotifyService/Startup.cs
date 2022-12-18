@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 using SpotifyService.ViewModels;
 using SpotifyLogic;
 using CoreLib.RabbitMQCommunication.Interfaces;
-using SpotifyService.RabbitMqCommunication.Implementations;
+using CoreLib.RabbitMQCommunication.Implementations;
 
 namespace SpotifyService
 {
