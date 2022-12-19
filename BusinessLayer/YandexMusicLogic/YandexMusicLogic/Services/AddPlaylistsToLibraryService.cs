@@ -12,9 +12,9 @@ namespace YandexMusicLogic.Services
 {
     public class AddPlaylistsToLibraryService : LibraryCommunication, IAddPlaylistsToLibraryService
     {
-        private readonly IRetryHandler<AddTrackResponse> _retryHandler;
+        private readonly IRetryHandler _retryHandler;
 
-        public AddPlaylistsToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler<AddTrackResponse> retryHandler)
+        public AddPlaylistsToLibraryService(YandexMusicApi yandexMusicApi, AuthStorage authStorage, IRetryHandler retryHandler)
             : base(yandexMusicApi, authStorage)
         {
             _retryHandler = retryHandler;
@@ -31,7 +31,7 @@ namespace YandexMusicLogic.Services
         private async Task<PlaylistForSyncViewModel> GetPlaylistForSync(PlaylistForQueue playlist)
         {
             var tracks = await GetTracks(new TracksForQueueDto { Tracks = playlist.Tracks });
-            return new PlaylistForSyncViewModel { Name = playlist.Name, Tracks = tracks.Select(t => t.Result[0]).ToList() };
+            return new PlaylistForSyncViewModel(playlist.Name, tracks.Select(t => t.Result[0]).ToList());
         }
 
         private async Task AddPlaylistsToLibrary(PlaylistForSyncViewModel playlist)

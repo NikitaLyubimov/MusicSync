@@ -29,7 +29,7 @@ namespace SpotifyService.Controllers
             }
             catch
             {
-                return BadRequest(new TracksMetadataResponse { ExceptionString = "Unknown error occured" });
+                return BadRequest(new TracksMetadataResponse(null, "Unknown error occured" ));
             }
         }
 
