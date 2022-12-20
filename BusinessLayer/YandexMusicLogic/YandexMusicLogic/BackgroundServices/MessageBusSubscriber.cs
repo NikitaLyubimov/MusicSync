@@ -9,6 +9,7 @@ using CoreLib.TracksDTOs;
 using Microsoft.Extensions.DependencyInjection;
 using IYandexMusicLogic.Services;
 using System.Text.Json;
+using CoreLib.Playlists;
 
 namespace YandexMusicLogic.BackgroundServices
 {
@@ -89,7 +90,11 @@ namespace YandexMusicLogic.BackgroundServices
                     var addTracksRequest = JsonSerializer.Deserialize<TracksForQueueDto>(message);
                     await addTracksService.AddTracksToLibrary(addTracksRequest);
                     break;
-                
+                case "playlists":
+                    var addPlaylistsService = _serviceProvider.GetRequiredService<IAddPlaylistsToLibraryService>();
+                    var addPlaylistsRequest = JsonSerializer.Deserialize<PlaylistsForQueueDto>(message);
+                    await addPlaylistsService.AddPlaylistsToLibrary(addPlaylistsRequest);
+                    break;
             }
         }
 
