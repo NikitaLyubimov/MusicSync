@@ -45,7 +45,7 @@ namespace SpotifyService.Services.Implementation
                 var playlistsAmountList = Enumerable.Range(1, _totalPlaylistsCount / batchSize);
                 var numberOfBatches = (int)Math.Ceiling((double)playlistsAmountList.Count() / batchSize);
 
-                for(int i = 1; i < numberOfBatches; i++)
+                for(int i = 1; i <= numberOfBatches; i++)
                 {
                     var result = i < _totalPlaylistsCount / batchSize ? await GetSpotifyPlaylistsWithTracks(i * batchSize, batchSize)
                                                                       : await GetSpotifyPlaylistsWithTracks(i * batchSize, _totalPlaylistsCount - i * batchSize);
@@ -56,9 +56,9 @@ namespace SpotifyService.Services.Implementation
             return finalPlaylistsList;
         }
 
-        private async Task<PlaylistsForQueueDto> GetSpotifyPlaylistsWithTracks(int offet, int limit)
+        private async Task<PlaylistsForQueueDto> GetSpotifyPlaylistsWithTracks(int offset, int limit)
         {
-            var result = await GetSpotifyPlaylists(offet, limit);
+            var result = await GetSpotifyPlaylists(limit, offset);
             var addTracksToPlaylistsTasks = result.Playlists.Select(playlist => AddTracksToPlaylist(playlist));
             await Task.WhenAll(addTracksToPlaylistsTasks);
             return result;
