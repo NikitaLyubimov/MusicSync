@@ -16,8 +16,8 @@ Spotify -> Yandex Music
 |Functionality|Progress|
 |-------------|--------|
 |Tracks synchronization|Complete|
-|Playlists synchronization|In progress|
-|Albums synchronization|In queue...|
+|Playlists synchronization|Complete|
+|Albums synchronization|In progress|
 
 
 
